@@ -1,0 +1,63 @@
+// Interactive-specific css here
+
+$lab = 	#CC0000
+$ld = #FF9900
+$snp = #FFCC00
+$c = #333399
+$ukip = #70147A
+$none = #E4E4E4
+
+ul#legend
+	padding: 15px 0 0 0
+	margin: 0
+	list-style-type: none
+
+	li
+		display: inline-block
+		margin: 0 18px 0 0
+		padding: 0
+		line-height: 17px
+
+		b
+			display: inline-block
+			width: 17px
+			height: 17px
+			margin-right: 6px
+			float: left
+			border: 1px solid $qz-map-graticule
+
+		div
+			whitespace: nowrap
+			fill: $qz-gray-2
+			font-size: 14px
+			font-family: "AdelleSans-Regular", Helvetica, Arial, sans-serif
+			float: left;
+
+		&.lab b
+			background-color: $lab
+
+		&.ld b
+			background-color: $ld
+
+		&.snp b
+			background-color: $snp
+
+		&.c b
+			background-color: $c
+
+		&.ukip b
+			background-color: $ukip
+
+		&.none b
+			background-color: $none
+
+.footer
+	font-family $qz-sans
+	color $qz-gray-2
+	font-size 14px
+	padding-left: 10px
+
+@media only screen and (min-width 601px)
+	#leave, #remain
+		float: left
+		width: 50%
