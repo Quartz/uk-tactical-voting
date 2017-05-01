@@ -202,7 +202,9 @@ graphic <- merged.results %>%
   select(
     id, name,
     remain.best.case, leave.best.case,
-    remain.practical.case, leave.practical.case
+    remain.practical.case, leave.practical.case,
+    left.total.15, right.total.15,
+    leave.16
   )    
 
 write_csv(graphic, "src/data/graphic.csv")

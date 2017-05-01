@@ -4,7 +4,7 @@ if (typeof UK === 'undefined') {
 
 UK.ElectionMap = function () {
   var edgeLength = 30,
-      id = '',
+      cls = '',
       stroke = '#FFFFFF';
       fill = 'none';
       origin = undefined;
@@ -43,8 +43,7 @@ UK.ElectionMap = function () {
 
     var tiles = svg.selectAll('.constituency').data(UK.ElectionMap.CONSTITUENCIES).enter()
       .append('path')
-        .attr('id', id)
-        .attr('class', 'constituency')
+        .attr('class', cls)
         .attr('stroke', stroke)
         .attr('d', path);
 
@@ -69,8 +68,8 @@ UK.ElectionMap = function () {
     return chart;
   };
 
-  chart.id = function(_) {
-    id = function(d) { return _(d[2]); }
+  chart.class = function(_) {
+    cls = function(d) { return _(d[2]); }
     return chart;
   }
 

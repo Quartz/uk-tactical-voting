@@ -41,68 +41,71 @@ var VOTE_COLORS = {
 function init() {
 	request.csv('data/graphic.csv', function(error, data) {
 		formatData(data);
-		populateSelect(data);
+		populateSelects(data);
 
 		render();
 		$(window).resize(utils.throttle(onResize, 250));
 	});
 }
 
-function populateSelect(data) {
-	var select = d3.select('#constituency');
+function populateSelects(data) {
+	var stanceSelect = d3.select('#stance');
+	var constituencySelect = d3.select('#constituency');
 
-	select.selectAll('option')
+	constituencySelect.selectAll('option')
 		.data(data)
 		.enter()
 			.append('option')
-			.attr('value', function(d) { return d['name'] })
+			.attr('value', function(d) { return d['slug']; })
 			.text(function(d) { return d['name'] });
 
-	select.insert('option', ':first-child')
+	constituencySelect.insert('option', ':first-child')
 		.attr('value', '')
 		.text('');
 
-	select.property('value', '');
+	constituencySelect.property('value', '');
 
-	select.on("change", onSelectChange);
+	stanceSelect.on('change', onSelectChange);
+	constituencySelect.on('change', onSelectChange);
 }
 
 var onSelectChange = function(d) {
-	var brexitResult = d3.select('.brexit-result');
-	var remainResult = d3.select('#remain .result');
-	var leaveResult = d3.select('#leave .result');
+	var stanceSelect = d3.select('#stance');
+	var constituencySelect = d3.select('#constituency');
+	var brexitResult = d3.select('#brexit-result');
 
-	var name = d3.select(this).property('value');
+	var stance = stanceSelect.property('value');
+	var slug = constituencySelect.property('value');
 
-	if (name == '') {
+	if (stance == '' || slug == '') {
 		brexitResult.text('');
-		remainResult.text('');
-		leaveResult.text('');
 
 		return;
 	}
 
-	var data = graphicData[name.toLowerCase().replace('&', 'and')];
+	var d = graphicData[slug];
 
-	var brexitVote = parseFloat(data['leave.16']).toFixed(1);
+	var brexitVote = parseFloat(d['leave.16']).toFixed(1);
 
-	var remainVote = PARTY_NAMES[data['tactical.remain.vote']];
-	var leaveVote = PARTY_NAMES[data['tactical.leave.vote']];
+	if (stance == 'leave') {
+		brexitResult.text('In 2015, ' + parseFloat(d['right.total.15']).toFixed(1) + '% of ' + d['name'] + ' voters chose a party that supported leaving the EU. In 2016, approximately ' + brexitVote + '% of ' + d['name'] + ' voters voted to leave the EU. Your constituency is highlighted in black on the maps in throughout this story.');
+	} else {
+		brexitResult.text('In 2015, ' + parseFloat(d['left.total.15']).toFixed(1) + '% of ' + d['name'] + ' voters chose a party that supported remaining in the EU. In 2016, approximately ' + brexitVote + '% of ' + d['name'] + ' voters voted to leave the EU. Your constituency is highlighted in black on the maps in throughout this story.');
+	}
 
-	var remainPct = parseFloat(data[data['tactical.remain.vote'] + '.15']).toFixed(1);
-	var leavePct = parseFloat(data[data['tactical.leave.vote'] + '.15']).toFixed(1);
+	d3.selectAll('path')
+		.attr('stroke', '#FFFFFF')
 
-	var totalRemainPct = (parseFloat(data['lab.15']) +
-		parseFloat(data['snp.15']) +
-		parseFloat(data['ld.15'])).toFixed(1);
-
-	var totalLeavePct = (parseFloat(data['con.15']) +
-		parseFloat(data['ukip.15'])).toFixed(1);
-
-	brexitResult.text('In 2016, approximately ' + brexitVote + '% of ' + name + ' voters voted to leave the EU. (TKTK)');
-	remainResult.text('You should vote for ' + remainVote + '. They received ' + remainPct + '% of the vote in ' + name + ' in 2015. If votes from all remain-supporting parties were consolidated they would receive ' + totalRemainPct + '%.');
-	leaveResult.text('You should vote for ' + leaveVote + '. They receieved ' + leavePct + '% of the vote in ' + name + ' in 2015. If votes from all leave-supporting parties were consolidated they would receive ' + totalLeavePct + '%.');
+	var mapElements = d3.selectAll('path.' + d['slug'])
+		.attr('stroke', '#000000')
+		.moveToFront();
 }
+
+d3.selection.prototype.moveToFront = function() {
+	return this.each(function(){
+		this.parentNode.appendChild(this);
+	});
+};
 
 /**
  * Format data or generate any derived variables.
@@ -111,20 +114,20 @@ function formatData(data) {
 	graphicData = {};
 
 	data.forEach(function(d) {
-		var name = utils.classify(d['name'].replace('&', 'and'));
+		d['slug'] = utils.classify(d['name'].replace('&', 'and'));
 
 		// Handle name mismatches w/ JS library
-		if (name == 'south-ribble') {
-			name = 'ribble-south';
-		} else if (name == 'dunfermline-and-fife-west') {
-			name = 'dunfermline-and-west-fife';
-		} else if (name == 'ochil-and-perthshire-south') {
-			name = 'ochil-and-south-perthshire';
-		} else if (name == 'perth-and-perthshire-north') {
-			name = 'perth-and-north-perthshire';
+		if (d['slug'] == 'south-ribble') {
+			d['slug'] = 'ribble-south';
+		} else if (d['slug'] == 'dunfermline-and-fife-west') {
+			d['slug'] = 'dunfermline-and-west-fife';
+		} else if (d['slug'] == 'ochil-and-perthshire-south') {
+			d['slug'] = 'ochil-and-south-perthshire';
+		} else if (d['slug'] == 'perth-and-perthshire-north') {
+			d['slug'] = 'perth-and-north-perthshire';
 		}
 
-		graphicData[name] = d;
+		graphicData[d['slug']] = d;
 	});
 }
 
@@ -218,7 +221,7 @@ function renderGraphic(config) {
 	var map = UK.ElectionMap()
 		.edgeLength(14 * (width / 960))
 		.origin({ x: chartWidth / 6, y: chartHeight })
-		.id(function(name) {
+		.class(function(name) {
 			return utils.classify(name);
 		})
 
@@ -231,9 +234,9 @@ function copyAndStyleGraphic(config) {
 
 	to.html(from.html());
 
-	d3.selectAll(config['to'] + ' .constituency')
+	d3.selectAll(config['to'] + ' path')
 		.attr('fill', function(d) {
-			var name = d3.select(this).attr('id');
+			var name = d3.select(this).attr('class');
 
 			var row = graphicData[name];
 
