@@ -44,7 +44,9 @@ general.results <- general.results %>%
     lab = ifelse(is.na(lab), 0, lab),
     ld = ifelse(is.na(ld), 0, ld),
     snp = ifelse(is.na(snp), 0, snp),
-    ukip = ifelse(is.na(ukip), 0, ukip)
+    ukip = ifelse(is.na(ukip), 0, ukip),
+    left.total = lab + ld + snp + green,
+    right.total = con + ukip
   ) %>%
   mutate(other = total.votes - (con + green + lab + ld + snp + ukip)) %>%
   mutate(
@@ -54,7 +56,9 @@ general.results <- general.results %>%
     ld.15 = ld / total.votes * 100,
     snp.15 = snp / total.votes * 100,
     ukip.15 = ukip / total.votes * 100,
-    other.15 = other / total.votes * 100
+    other.15 = other / total.votes * 100,
+    left.total.15 = left.total / total.votes * 100,
+    right.total.15 = right.total / total.votes * 100
   )
 
 # Load brexit vote results
@@ -96,10 +100,7 @@ BrexitSwingStatus <- function(leave, swing) {
   }
 }
 
-PartySwingStatus <- function(lab, ld, snp, green, con, ukip, swing) {
-  left <- lab + ld + snp + green
-  right <- con + ukip
-  
+PartySwingStatus <- function(left, right, swing) {
   if (right - left > swing) {
     return("Solid right")
   } else if (left - right > swing) {
@@ -133,57 +134,60 @@ TacticalLeaveVote <- function(con, ukip) {
   }
 }
 
-merged.results$brexit.swing.status.5 <- mapply(
-  BrexitSwingStatus,
-  merged.results$leave.16,
-  5
-)
+Winner2015 <- function(lab, ld, snp, green, con, ukip) {
+  m <- max(lab, ld, snp, green, con, ukip)
+  
+  if (lab == m) {
+    return("lab")
+  } else if (ld == m) {
+    return("ld")
+  } else if (snp == m) {
+    return("snp")
+  } else if (green == m) {
+    return("green")
+  } else if (con == m) {
+    return("con")
+  } else {
+    return("ukip")
+  }
+}
 
-merged.results$brexit.swing.status.10 <- mapply(
-  BrexitSwingStatus,
-  merged.results$leave.16,
-  10
-)
+RemainBestCase <- function(left, right, swing, tactical, winner.2015) {
+  if (left + swing > right) {
+    return(tactical);
+  } else {
+    return(winner.2015)
+  }
+}
 
-merged.results$party.swing.status.5 <- mapply(
-  PartySwingStatus,
-  merged.results$lab.15,
-  merged.results$ld.15,
-  merged.results$snp.15,
-  merged.results$green.15,
-  merged.results$con.15,
-  merged.results$ukip.15,
-  5
-)
+LeaveBestCase <- function(left, right, swing, tactical, winner.2015) {
+  if (right + swing > left) {
+    return(tactical);
+  } else {
+    return(winner.2015)
+  }
+}
 
-merged.results$party.swing.status.10 <- mapply(
-  PartySwingStatus,
-  merged.results$lab.15,
-  merged.results$ld.15,
-  merged.results$snp.15,
-  merged.results$green.15,
-  merged.results$con.15,
-  merged.results$ukip.15,
-  10
-)
-
-merged.results$tactical.remain.vote <- mapply(
-  TacticalRemainVote,
-  merged.results$lab.15,
-  merged.results$ld.15,
-  merged.results$snp.15,
-  merged.results$green.15
-)
-
-merged.results$tactical.leave.vote <- mapply(
-  TacticalLeaveVote,
-  merged.results$con.15,
-  merged.results$ukip.15
-)
+merged.results <- merged.results %>%
+  rowwise() %>%
+  mutate(
+    brexit.swing.status.5 = BrexitSwingStatus(leave.16, 5),
+    brexit.swing.status.10 = BrexitSwingStatus(leave.16, 10),
+    party.swing.status.5 = PartySwingStatus(left.total.15, right.total.15, 5),
+    party.swing.status.10 = PartySwingStatus(left.total.15, right.total.15, 10),
+    tactical.remain.vote = TacticalRemainVote(lab, ld, snp, green),
+    tactical.leave.vote = TacticalLeaveVote(con, ukip),
+    winner.2015 = Winner2015(lab, ld, snp, green, con, ukip),
+    remain.best.case = RemainBestCase(left.total.15, right.total.15, 5, tactical.remain.vote, winner.2015),
+    leave.best.case = LeaveBestCase(left.total.15, right.total.15, 5, tactical.leave.vote, winner.2015)
+  )
 
 write_csv(merged.results, "merged.results.csv")
 
 graphic <- merged.results %>%
-  select(-total.votes, -con, -green, -lab, -ld, -snp, -con, -ukip, -other)
+  select(
+    id, name,
+    remain.best.case, leave.best.case
+  )    
 
 write_csv(graphic, "src/data/graphic.csv")

@@ -18,6 +18,7 @@ var PARTY_NAMES = {
 	'lab': 'Labour',
 	'snp': 'the Scottish National Party',
 	'ld': 'the Liberal Democrats',
+	'green': 'the Green Party',
 	'con': 'the Conservative Party',
 	'ukip': 'UKIP'
 }
@@ -26,6 +27,7 @@ var VOTE_COLORS = {
 	'lab': '#CC0000',
 	'snp': '#FFCC00',
 	'ld': '#FF9900',
+	'green': '#6AB023',
 	'con': '#333399',
 	'ukip': '#70147A'
 }
@@ -81,7 +83,7 @@ var onSelectChange = function(d) {
 
 	var data = graphicData[name.toLowerCase().replace('&', 'and')];
 
-	var brexitVote = (parseFloat(data['leave.16']) * 100).toFixed(1);
+	var brexitVote = parseFloat(data['leave.16']).toFixed(1);
 
 	var remainVote = PARTY_NAMES[data['tactical.remain.vote']];
 	var leaveVote = PARTY_NAMES[data['tactical.leave.vote']];
@@ -108,7 +110,20 @@ function formatData(data) {
 	graphicData = {};
 
 	data.forEach(function(d) {
-		graphicData[d['name'].toLowerCase().replace('&', 'and')] = d;
+		var name = d['name'].toLowerCase().replace('&', 'and');
+
+		// Handle name mismatches w/ JS library
+		if (name == 'south ribble') {
+			name = 'ribble south';
+		} else if (name == 'dunfermline and fife west') {
+			name = 'dunfermline and west fife';
+		} else if (name == 'ochil and perthshire south') {
+			name = 'ochil and south perthshire';
+		} else if (name == 'perth and perthshire north') {
+			name = 'perth and north perthshire';
+		}
+
+		graphicData[name] = d;
 	});
 }
 
@@ -132,15 +147,15 @@ function render() {
 	}
 
 	renderGraphic({
-		container: '#remain .graphic',
+		container: '#remain-best-case .graphic',
 		width: isMobile ? width : width / 2,
-		vote: 'tactical.remain.vote'
+		display: 'remain.best.case'
 	});
 
 	renderGraphic({
-		container: '#leave .graphic',
+		container: '#leave-best-case .graphic',
 		width: isMobile ? width : width / 2,
-		vote: 'tactical.leave.vote'
+		display: 'leave.best.case'
 	});
 
 	// Inform parent frame of new height
@@ -182,31 +197,20 @@ function renderGraphic(config) {
 		.append('g')
 		.attr('transform', 'translate(' + margins['left'] + ',' + margins['top'] + ')');
 
-	// RENDER SOMETHING HERE
 	var map = UK.ElectionMap()
 		.edgeLength(14 * (width / 960))
 		.origin({ x: chartWidth / 6, y: chartHeight })
+		.cls(function(name) {
+			var row = graphicData[name.toLowerCase()];
+
+			return 'constituency ' + utils.classify(row['id']);
+			return 'constituency foo';
+		})
 		.fill(function (name) {
-			name = name.toLowerCase();
-
-			if (name == 'ribble south') {
-				name = 'south ribble';
-			} else if (name == 'dunfermline and west fife') {
-				name = 'dunfermline and fife west';
-			} else if (name == 'ochil and south perthshire') {
-				name = 'ochil and perthshire south';
-			} else if (name == 'perth and north perthshire') {
-				name = 'perth and perthshire north';
-			}
-
-			var row = graphicData[name];
+			var row = graphicData[name.toLowerCase()];
 
 			if (row) {
-				if (row['swing.status.5'] == 'Solid leave' || row['swing.status.5'] == 'Solid remain') {
-					return '#E4E4E4';
-				}
-
-				return VOTE_COLORS[row[config['vote']]];
+				return VOTE_COLORS[row[config['display']]];
 			}
 
 			return 'black';

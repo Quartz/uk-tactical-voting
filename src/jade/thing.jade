@@ -1,51 +1,51 @@
-h2 How to vote if Brexit is all you care about
+h2 Best-case scenarios for tactical voting
 
-p Based on vote counts from the 2015 general election and estimates from the 2016 Brexit vote, there are many parts of the UK where anti-Brexit voters could pool their votes to keep leave-supporting conservatives out of power.
-
-p This map shows areas where the Brexit vote was decided by no more than 5%, and thus a consolidated voting bloc could conceivably elect a candidate specifically to express their despair (or joy).
+p These maps show what could happen if all voters in each district voted for best-performing pro- or anti-Brexit party in 2015. A possible 5% swing in the total vote is also factored in.
 
 p <strong>Select your constituency</strong>
     select#constituency
     
 div.brexit-result
 
-div#remain
-    h3 If you want to remain...
+ul#legend
+    li.lab
+        b
+        div Labour
+    li.ld
+        b
+        div Liberal Democrats
+    li.snp
+        b
+        div Scottish National Party
+    li.green
+        b
+        div Green Party
+    li.c
+        b
+        div Conservative
+    li.ukip
+        b
+        div UKIP
+    li.none
+        b
+        div Not competitive
+        
+div#remain-best-case
+    h3 Hypothetical best-case for remain voters
     
     div.result
-
-    ul#legend
-        li.lab
-            b
-            div Labour
-        li.ld
-            b
-            div Liberal Democrats
-        li.snp
-            b
-            div Scottish National Party
-        li.none
-            b
-            div Not competitive
             
     div.graphic
     
-div#leave
-    h3 If you want to leave...
+div#leave-best-case
+    h3 Hypothetical best case for leave voters
     
     div.result
-
-    ul#legend
-        li.c
-            b
-            div Conservative
-        li.ukip
-            b
-            div UKIP
-        li.none
-            b
-            div Not competitive
             
+    div.graphic
+    
+    
+div#secret-render
     div.graphic
 
 div.footer Data: <a href="http://www.electoralcommission.org.uk/our-work/our-research/electoral-data">UK Electoral Commission</a>, <a href="https://docs.google.com/spreadsheets/d/1b71SDKPFbk-ktmUTXmDpUP5PT299qq24orEA0_TOpmw/edit?usp=sharing">Chris Hanretty (University of East Anglia)</a>, Quartz analysis
