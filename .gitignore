@@ -3,3 +3,4 @@ build
 !node_modules/stylus-normalize
 .DS_Store
 .tmp
+.Rproj.user

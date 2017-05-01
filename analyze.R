@@ -20,7 +20,7 @@ general.results <- general.results %>%
   # Filter out total row
   filter(!is.na(`Press Association ID Number`)) %>%
   left_join(id.mapping, by.x = `Press Association ID Number`, by.y = PANO) %>%
-  select(`Constituency ID`, `Constituency Name`, `Total number of valid votes counted`, C, Lab, LD, SNP, UKIP)
+  select(`Constituency ID`, `Constituency Name`, `Total number of valid votes counted`, C, Green, Lab, LD, SNP, UKIP)
 
 # Clean up column names
 colnames(general.results) <- c(
@@ -28,6 +28,7 @@ colnames(general.results) <- c(
   "name",
   "total.votes",
   "con",
+  "green",
   "lab",
   "ld",
   "snp",
@@ -39,14 +40,16 @@ general.results <- general.results %>%
   # Convert NA counts to zero
   mutate(
     con = ifelse(is.na(con), 0, con),
+    green = ifelse(is.na(green), 0, green),
     lab = ifelse(is.na(lab), 0, lab),
     ld = ifelse(is.na(ld), 0, ld),
     snp = ifelse(is.na(snp), 0, snp),
     ukip = ifelse(is.na(ukip), 0, ukip)
   ) %>%
-  mutate(other = total.votes - (con + lab + ld + snp + ukip)) %>%
+  mutate(other = total.votes - (con + green + lab + ld + snp + ukip)) %>%
   mutate(
     con.15 = con / total.votes * 100,
+    green.15 = green / total.votes * 100,
     lab.15 = lab / total.votes * 100,
     ld.15 = ld / total.votes * 100,
     snp.15 = snp / total.votes * 100,
@@ -74,39 +77,49 @@ brexit.results$leave.exact <- !is.na(brexit.results$leave.exact)
 merged.results <- general.results %>%
   left_join(brexit.results, by = "id")
 
-# Conservative: leave
-# Labour: remain
-# Scottish National: remain
-# Liberal Democrats: remain
+# Adjust percents for consistency
+merged.results$leave.estimate <- merged.results$leave.estimate * 100
+merged.results$leave.16 <- merged.results$leave.16 * 100
 
-# Since ref if there is a swing in remain, it can't be more than 10%, so 0.6 to 0.4 leave vote
-# If in a leave place, but you want to remain, who should you vote for? Anybody but conservatives, but don't want to split
-# So you should choose which party is the second-most popular party in that district
-
-SwingStatus5 <- function(leave) {
+# Find possible Brexit swing votes
+BrexitSwingStatus <- function(leave, swing) {
   if (is.na(leave)) {
     return(NA)
-  } else if (leave < 0.45) {
+  } else if (leave < 50 - swing) {
     return("Solid remain")
-  } else if (leave < 0.5) {
+  } else if (leave < 50) {
     return("Could swing to leave")
-  } else if (leave <= 0.55) {
+  } else if (leave <= 50 + swing) {
     return ("Could swing to remain")
   } else {
     return("Solid leave")
   }
 }
 
-TacticalRemainVote <- function(lab, ld, snp) {
-  # Liberal Democrats are closest to a win
-  if (ld > snp & ld > lab) {
-    return("ld")
-  # SNP is closest to a win
-  } else if (snp > ld & snp > lab) {
-    return ("snp")
-  # Labor is closest to a win
+PartySwingStatus <- function(lab, ld, snp, green, con, ukip, swing) {
+  left <- lab + ld + snp + green
+  right <- con + ukip
+  
+  if (right - left > swing) {
+    return("Solid right")
+  } else if (left - right > swing) {
+    return("Solid left")
   } else {
+    return("Swing")
+  }
+}
+
+TacticalRemainVote <- function(lab, ld, snp, green) {
+  m <- max(lab, ld, snp, green)
+  
+  if (lab == m) {
     return("lab")
+  } else if (ld == m) {
+    return("ld")
+  } else if (snp == m) {
+    return("snp")
+  } else {
+    return("green")
   }
 }
 
@@ -120,13 +133,46 @@ TacticalLeaveVote <- function(con, ukip) {
   }
 }
 
-merged.results$swing.status.5 <- sapply(merged.results$leave.16, SwingStatus5)
+merged.results$brexit.swing.status.5 <- mapply(
+  BrexitSwingStatus,
+  merged.results$leave.16,
+  5
+)
+
+merged.results$brexit.swing.status.10 <- mapply(
+  BrexitSwingStatus,
+  merged.results$leave.16,
+  10
+)
+
+merged.results$party.swing.status.5 <- mapply(
+  PartySwingStatus,
+  merged.results$lab.15,
+  merged.results$ld.15,
+  merged.results$snp.15,
+  merged.results$green.15,
+  merged.results$con.15,
+  merged.results$ukip.15,
+  5
+)
+
+merged.results$party.swing.status.10 <- mapply(
+  PartySwingStatus,
+  merged.results$lab.15,
+  merged.results$ld.15,
+  merged.results$snp.15,
+  merged.results$green.15,
+  merged.results$con.15,
+  merged.results$ukip.15,
+  10
+)
 
 merged.results$tactical.remain.vote <- mapply(
   TacticalRemainVote,
   merged.results$lab.15,
   merged.results$ld.15,
-  merged.results$snp.15
+  merged.results$snp.15,
+  merged.results$green.15
 )
 
 merged.results$tactical.leave.vote <- mapply(
@@ -138,6 +184,6 @@ merged.results$tactical.leave.vote <- mapply(
 write_csv(merged.results, "merged.results.csv")
 
 graphic <- merged.results %>%
-  select(-total.votes, -con, -lab, -ld, -snp, -con, -ukip, -other)
+  select(-total.votes, -con, -green, -lab, -ld, -snp, -con, -ukip, -other)
 
 write_csv(graphic, "src/data/graphic.csv")
