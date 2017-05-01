@@ -168,6 +168,18 @@ LeaveBestCase <- function(left, right, swing, tactical, winner.2015) {
   }
 }
 
+PracticalCase <- function(brexit.swing, party.swing, tactical) {
+  if (is.na(brexit.swing)) {
+    return(NA)
+  } else if ((brexit.swing == "Solid remain") & (party.swing == "Solid left")) {
+    return(NA)
+  } else if ((brexit.swing == "Solid leave") & (party.swing == "Solid right")) {
+    return(NA)
+  } else {
+    return(tactical)
+  }
+}
+
 merged.results <- merged.results %>%
   rowwise() %>%
   mutate(
@@ -179,7 +191,9 @@ merged.results <- merged.results %>%
     tactical.leave.vote = TacticalLeaveVote(con, ukip),
     winner.2015 = Winner2015(lab, ld, snp, green, con, ukip),
     remain.best.case = RemainBestCase(left.total.15, right.total.15, 5, tactical.remain.vote, winner.2015),
-    leave.best.case = LeaveBestCase(left.total.15, right.total.15, 5, tactical.leave.vote, winner.2015)
+    leave.best.case = LeaveBestCase(left.total.15, right.total.15, 5, tactical.leave.vote, winner.2015),
+    remain.practical.case = PracticalCase(brexit.swing.status.5, party.swing.status.5, tactical.remain.vote),
+    leave.practical.case = PracticalCase(brexit.swing.status.5, party.swing.status.5, tactical.leave.vote)
   )
 
 write_csv(merged.results, "merged.results.csv")
@@ -187,7 +201,8 @@ write_csv(merged.results, "merged.results.csv")
 graphic <- merged.results %>%
   select(
     id, name,
-    remain.best.case, leave.best.case
+    remain.best.case, leave.best.case,
+    remain.practical.case, leave.practical.case
   )    
 
 write_csv(graphic, "src/data/graphic.csv")

@@ -26,7 +26,7 @@ var config = require("./gulp/config");
 var utils = require("./gulp/utils");
 
 // Configuration
-var gdoc_id = "";
+var gdoc_id = "1X1XJ_DD4m97Qq-jx0jNNRNFcoQdYYXcVwObOSFgVTLY";
 var gdoc_host = "127.0.0.1:6006";
 var gdoc_url = "http://"+gdoc_host+"/"+ gdoc_id;
 var content = {};

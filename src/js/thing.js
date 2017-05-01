@@ -29,7 +29,8 @@ var VOTE_COLORS = {
 	'ld': '#FF9900',
 	'green': '#6AB023',
 	'con': '#333399',
-	'ukip': '#70147A'
+	'ukip': '#70147A',
+	'NA': '#E4E4E4'
 }
 
 /**
@@ -110,17 +111,17 @@ function formatData(data) {
 	graphicData = {};
 
 	data.forEach(function(d) {
-		var name = d['name'].toLowerCase().replace('&', 'and');
+		var name = utils.classify(d['name'].replace('&', 'and'));
 
 		// Handle name mismatches w/ JS library
-		if (name == 'south ribble') {
-			name = 'ribble south';
-		} else if (name == 'dunfermline and fife west') {
-			name = 'dunfermline and west fife';
-		} else if (name == 'ochil and perthshire south') {
-			name = 'ochil and south perthshire';
-		} else if (name == 'perth and perthshire north') {
-			name = 'perth and north perthshire';
+		if (name == 'south-ribble') {
+			name = 'ribble-south';
+		} else if (name == 'dunfermline-and-fife-west') {
+			name = 'dunfermline-and-west-fife';
+		} else if (name == 'ochil-and-perthshire-south') {
+			name = 'ochil-and-south-perthshire';
+		} else if (name == 'perth-and-perthshire-north') {
+			name = 'perth-and-north-perthshire';
 		}
 
 		graphicData[name] = d;
@@ -147,15 +148,32 @@ function render() {
 	}
 
 	renderGraphic({
-		container: '#remain-best-case .graphic',
-		width: isMobile ? width : width / 2,
+		container: '#secret-render .graphic',
+		width: isMobile ? width : width / 2
+	});
+
+	copyAndStyleGraphic({
+		from:'#secret-render .graphic',
+		to: '#remain-best-case .graphic',
 		display: 'remain.best.case'
 	});
 
-	renderGraphic({
-		container: '#leave-best-case .graphic',
-		width: isMobile ? width : width / 2,
+	copyAndStyleGraphic({
+		from:'#secret-render .graphic',
+		to: '#leave-best-case .graphic',
 		display: 'leave.best.case'
+	});
+
+	copyAndStyleGraphic({
+		from:'#secret-render .graphic',
+		to: '#remain-realistic-case .graphic',
+		display: 'remain.practical.case'
+	});
+
+	copyAndStyleGraphic({
+		from:'#secret-render .graphic',
+		to: '#leave-realistic-case .graphic',
+		display: 'leave.practical.case'
 	});
 
 	// Inform parent frame of new height
@@ -200,14 +218,24 @@ function renderGraphic(config) {
 	var map = UK.ElectionMap()
 		.edgeLength(14 * (width / 960))
 		.origin({ x: chartWidth / 6, y: chartHeight })
-		.cls(function(name) {
-			var row = graphicData[name.toLowerCase()];
-
-			return 'constituency ' + utils.classify(row['id']);
-			return 'constituency foo';
+		.id(function(name) {
+			return utils.classify(name);
 		})
-		.fill(function (name) {
-			var row = graphicData[name.toLowerCase()];
+
+	map(chartElement);
+}
+
+function copyAndStyleGraphic(config) {
+	var from = d3.select(config['from']);
+	var to = d3.select(config['to']);
+
+	to.html(from.html());
+
+	d3.selectAll(config['to'] + ' .constituency')
+		.attr('fill', function(d) {
+			var name = d3.select(this).attr('id');
+
+			var row = graphicData[name];
 
 			if (row) {
 				return VOTE_COLORS[row[config['display']]];
@@ -215,8 +243,6 @@ function renderGraphic(config) {
 
 			return 'black';
 		})
-
-	map(chartElement);
 }
 
 // Bind on-load handler
