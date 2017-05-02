@@ -1,6 +1,7 @@
 // NPM modules
 var d3 = require('d3');
 var request = require('d3-request');
+var _ = require('lodash');
 
 // Local modules
 var features = require('./detectFeatures')();
@@ -20,7 +21,7 @@ var PARTY_NAMES = {
 	'ld': 'the Liberal Democrats',
 	'green': 'the Green Party',
 	'con': 'the Conservative Party',
-	'ukip': 'UKIP'
+	'ukip': 'the UK Independence Party'
 }
 
 var VOTE_COLORS = {
@@ -32,6 +33,8 @@ var VOTE_COLORS = {
 	'ukip': '#70147A',
 	'NA': '#E4E4E4'
 }
+
+var TEMPLATE = _.template('In 2015, <%= total %>% of <%= constituency %> voters chose a party that supported <%= position %> the EU. In 2016, approximately <%= brexitVote %>% voted to leave the EU. If you wish to vote tactically, the data suggest you should cast a ballot for <%= tactical %>. <%= constituency %> is highlighted in black on the maps in throughout this story.');
 
 /**
  * Initialize the graphic.
@@ -85,13 +88,22 @@ var onSelectChange = function(d) {
 
 	var d = graphicData[slug];
 
-	var brexitVote = parseFloat(d['leave.16']).toFixed(1);
+	var templateArgs = {
+		'constituency': d['name'],
+		'brexitVote': parseFloat(d['leave.16']).toFixed(1),
+	};
 
 	if (stance == 'leave') {
-		brexitResult.text('In 2015, ' + parseFloat(d['right.total.15']).toFixed(1) + '% of ' + d['name'] + ' voters chose a party that supported leaving the EU. In 2016, approximately ' + brexitVote + '% of ' + d['name'] + ' voters voted to leave the EU. Your constituency is highlighted in black on the maps in throughout this story.');
+		templateArgs['position'] = 'leaving';
+		templateArgs['total'] = parseFloat(d['right.total.15']).toFixed(1);
+		templateArgs['tactical'] = PARTY_NAMES[d['tactical.leave.vote']];
 	} else {
-		brexitResult.text('In 2015, ' + parseFloat(d['left.total.15']).toFixed(1) + '% of ' + d['name'] + ' voters chose a party that supported remaining in the EU. In 2016, approximately ' + brexitVote + '% of ' + d['name'] + ' voters voted to leave the EU. Your constituency is highlighted in black on the maps in throughout this story.');
+		templateArgs['position'] = 'remaining in';
+		templateArgs['total'] = parseFloat(d['left.total.15']).toFixed(1);
+		templateArgs['tactical'] = PARTY_NAMES[d['tactical.remain.vote']];
 	}
+
+	brexitResult.text(TEMPLATE(templateArgs));
 
 	d3.selectAll('path')
 		.attr('stroke', '#FFFFFF')

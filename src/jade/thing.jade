@@ -1,77 +1,74 @@
-p TKTK
+each graf in section_a
+    p= graf
 
-p TKTK
+h2= lookup_hed
 
-h2= hed
-
-p <strong>I live in...</strong>
+p
+    strong= constituency_label
     select#constituency
     
-p <strong>I believe... </strong>
+p 
+    strong= stance_label
     select#stance
         option(value='')
-        option(value='leave') Theresa May is right. Let's leave it all behind.
-        option(value='remain') Theresa May is wrong. We should maintain close of ties to the EU.
+        option(value='leave')= stance_leave
+        option(value='remain')= stance_remain
     
 p#brexit-result
 
-p TKTK
+h2= section_b_hed
 
-p TKTK
-
-h2 How tactical voting could shape the outcome
-
-p These maps show what could happen if all voters in each district voted for the pro- or anti-Brexit party that received the most votes in 2015. A possible 5% swing in the total vote is also factored in.
-
+each graf in section_b
+    p= graf
+    
 ul#legend
     li.lab
         b
-        div Labour
+        div= lab
     li.ld
         b
-        div Liberal Democrats
+        div= ld
     li.snp
         b
-        div Scottish National Party
+        div= snp
     li.green
         b
-        div Green Party
+        div= green
     li.c
         b
-        div Conservative
+        div= con
     li.ukip
         b
-        div UK Independence Party
+        div= ukip
         
 div#remain-best-case.map
-    h3 Hypothetical best-case for remain voters
+    h3= ideal_remain
             
     div.graphic
     
 div#leave-best-case.map
-    h3 Hypothetical best case for leave voters
+    h3= ideal_leave
             
     div.graphic
-    
-p TKTK
 
-p TKTK
-
-h2 Where tactical really matters
-
-p TKTK
+p= practical_explainer
 
 div#remain-realistic-case.map
-    h3 For anti-Brexit voters
+    h3= practical_remain
     
     div.graphic
     
 div#leave-realistic-case.map
-    h3 For pro-Brexit voters
+    h3= practical_leave
     
     div.graphic
+
+h2= section_c_hed
+
+each graf in section_c
+    p= graf
     
 div#secret-render
     div.graphic
 
-div.footer Data: <a href="http://www.electoralcommission.org.uk/our-work/our-research/electoral-data">UK Electoral Commission</a>, <a href="https://docs.google.com/spreadsheets/d/1b71SDKPFbk-ktmUTXmDpUP5PT299qq24orEA0_TOpmw/edit?usp=sharing">Chris Hanretty (University of East Anglia)</a>, Quartz analysis
+div.footer!= footer

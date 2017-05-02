@@ -1,3 +1,36 @@
 {
-    "code": 400
+    "lookup_hed": "How to cast a tactical vote",
+    "constituency_label": "I live in...",
+    "stance_label": "I believe…",
+    "stance_leave": "Theresa May is right. Let's leave it all behind.",
+    "stance_remain": "Theresa May is wrong. We should maintain close of ties to the EU.",
+    "section_b_hed": "Methodology",
+    "lab": "Labour",
+    "ld": "Liberal Democrats",
+    "snp": "Scottish National Party",
+    "green": "Green Party",
+    "con": "Conservative Party",
+    "ukip": "UK Independence Party",
+    "ideal_remain": "Hypothetical best-case for remain voters",
+    "ideal_leave": "Hypothetical best case for leave voters",
+    "practical_explainer": "This interactive shows that there are theoretically XX seats to play for in this election if everyone voted tactically. However, a more realistic assumption is that tactical voting will happen in places where the Leave vs Remain vote was close. So we’ve overlaid the data from the Brexit referendum to find out which are those seats.",
+    "practical_remain": "For anti-Brexit voters",
+    "practical_leave": "For pro-Brexit voters",
+    "section_c_hed": "Caveats",
+    "footer": "Data: <a href=\"http://www.electoralcommission.org.uk/our-work/our-research/electoral-data\">UK Electoral Commission</a>, <a href=\"https://docs.google.com/spreadsheets/d/1b71SDKPFbk-ktmUTXmDpUP5PT299qq24orEA0_TOpmw/edit?usp=sharing\">Chris Hanretty (University of East Anglia)</a>, Quartz analysis",
+    "section_a": [
+        "It is a time of political upheaval in much of the world. But none more so than in the UK, which is going for a second general election in just over two years.",
+        "The UK surprised the world by voting to leave the EU in June last year. Soon after that Theresa May took over the prime ministership from her predecessor David Cameron. According to the rules, she could’ve continued to govern the country until 2020, but she has taken a gamble by calling for a general election. That’s because the <a href=\"https://www.theguardian.com/science/2017/apr/27/lib-dems-shouldnt-count-on-remain-votes-the-data-looks-bleak\">latest polls</a> suggest that, on June 8, Brits would vote to give her Conservative party an even bigger majority than it has currently.",
+        "Typically campaigns for general elections start many years in advance. Instead, this time May’s “snap” election gives the many political parties only weeks to organise, campaign, and sway voters. What perhaps makes life easier for them is that the election is, in effect, about only one thing: <a href=\"https://qz.com/on/brexit/\">Brexit</a>.",
+        "The upshot is that voters really have only one of two choices. Give May’s right-leaning party a bigger majority to ensure Brexit happens on <a href=\"https://qz.com/943292/brexit-begins-the-uk-now-has-two-years-to-untangle-itself-from-the-european-union/\">her terms</a>. Or vote for the left-leaning opposition parties, who may be fractured in what they are promising, but at least they all oppose giving May a <a href=\"https://www.bloomberg.com/politics/articles/2017-04-23/blair-warns-against-brexit-blank-check-for-may-in-u-k-vote\">blank check</a>.",
+        "Current polls suggest a surge in the Conservative vote since the 2015 general election. And, yet, whether you are for May’s Brexit or against, tactical voting could significantly change the outcome of the election. Quartz has created a simple guide help you."
+    ],
+    "section_b": [
+        "Depending on your Brexit preference, a tactical vote is where you vote either for a left-leaning party or a right-leaning party. For instance, if you’re against “Give May all the power” in XX constituency, you vote for the Lib Dem candidate (even if you’re like the Labour candidate more) because he’s likely to have the best chance against your current Conservative member of parliament (MP).",
+        "For simplicity sake, we’ve used data from the 2015 general elections and picked the top six parties by proportion of the votes they received. The left-leaning parties are: Labour, Liberal Democrats, Scottish Nationalist Party, and Green. The right-leaning parties are: Conservatives and UK Independence Party.",
+        "To aid the tactical vote, we’ve assumed that there could be a 5% swing from left to right or vice versa compared to the 2015 general election. Here’s what could happen if everyone votes tactically on one side:"
+    ],
+    "section_c": [
+        "This guide is based on a theoretical model that uses voting data from the 2015 general election and the 2016 Brexit referendum. To come to our conclusion, we’ve made many assumptions. First, we assume that every voter on only one side of the Brexit divide will engage in tactical voting. That, of course, is unlikely but it helps us understand the range of extreme outcomes for the 2017 election. Second, each side’s tactical vote is aided by a 5% swing from either the left to the right, which we believe is a modest estimate. The final swing may be a lot more or a lot less. Finally, we understand that there are, for instance, Labour voters who would prefer May’s Brexit and Conservative voters who would oppose it. Our model, however, is based on what the parties currently say they are likely to do if given power."
+    ]
 }
