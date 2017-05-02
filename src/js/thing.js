@@ -34,7 +34,7 @@ var VOTE_COLORS = {
 	'NA': '#E4E4E4'
 }
 
-var TEMPLATE = _.template('In 2015, <%= total %>% of <%= constituency %> voters chose a party that supported <%= position %> the EU. In 2016, approximately <%= brexitVote %>% voted to leave the EU. <%= solid %> If you wish to cast tactical vote <%= position2 %> Theresa May\'s Brexit, the data suggest you should cast a ballot for <%= tactical %>. <%= constituency %> is highlighted in black on the maps in throughout this story.');
+var TEMPLATE = _.template('In 2015, <%= total %>% of <%= constituency %> voters chose a party that supported <%= position %> the EU. In 2016, approximately <%= brexitVote %>% voted to leave the EU. <%= solid %> If you wish to cast a tactical vote <%= position2 %> Theresa May\'s Brexit, the data suggest you should cast a ballot for <%= tactical %>. <%= constituency %> is highlighted in black on the maps in throughout this story.');
 
 /**
  * Initialize the graphic.
@@ -97,20 +97,20 @@ var onSelectChange = function(d) {
 	if (stance == 'leave') {
 		templateArgs['position'] = 'leaving';
 		templateArgs['position2'] = 'supporting';
-		templateArgs['total'] = parseFloat(d['right.total.15']).toFixed(1);
-		templateArgs['tactical'] = PARTY_NAMES[d['tactical.leave.vote']];
+		templateArgs['total'] = parseFloat(d['leave.total.votes']).toFixed(1);
+		templateArgs['tactical'] = PARTY_NAMES[d['leave.top.party']];
 	} else {
 		templateArgs['position'] = 'remaining in';
 		templateArgs['position2'] = 'opposing';
-		templateArgs['total'] = parseFloat(d['left.total.15']).toFixed(1);
-		templateArgs['tactical'] = PARTY_NAMES[d['tactical.remain.vote']];
+		templateArgs['total'] = parseFloat(d['remain.total.votes']).toFixed(1);
+		templateArgs['tactical'] = PARTY_NAMES[d['remain.top.party']];
 	}
 
-	if (d['party.swing.status.5'] == 'Solid left' && d['brexit.swing.status.5'] == 'Solid left') {
-		d['solid'] == '';
-	} else if (d['party.swing.status.5'] == 'Solid right' && d['brexit.swing.status.5'] == 'Solid right') {
-		d['solid'] == '';
-	}
+	// if (d['party.status'] == 'Solid left' && d['brexit.swing.status.5'] == 'Solid left') {
+	// 	d['solid'] == '';
+	// } else if (d['party.status'] == 'Solid right' && d['brexit.swing.status.5'] == 'Solid right') {
+	// 	d['solid'] == '';
+	// }
 
 	brexitResult.text(TEMPLATE(templateArgs));
 
@@ -178,25 +178,25 @@ function render() {
 
 	copyAndStyleGraphic({
 		from:'#secret-render .graphic',
-		to: '#remain-best-case .graphic',
-		display: 'remain.best.case'
+		to: '#remain-ideal-case .graphic',
+		display: 'remain.ideal.case'
 	});
 
 	copyAndStyleGraphic({
 		from:'#secret-render .graphic',
-		to: '#leave-best-case .graphic',
-		display: 'leave.best.case'
+		to: '#leave-ideal-case .graphic',
+		display: 'leave.ideal.case'
 	});
 
 	copyAndStyleGraphic({
 		from:'#secret-render .graphic',
-		to: '#remain-realistic-case .graphic',
+		to: '#remain-practical-case .graphic',
 		display: 'remain.practical.case'
 	});
 
 	copyAndStyleGraphic({
 		from:'#secret-render .graphic',
-		to: '#leave-realistic-case .graphic',
+		to: '#leave-practical-case .graphic',
 		display: 'leave.practical.case'
 	});
 

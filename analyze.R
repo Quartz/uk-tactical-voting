@@ -3,6 +3,8 @@ library(readr)
 library(readxl)
 library(reshape2)
 
+SWING_MARGIN = 5
+
 # Load general election id mapping
 id.mapping <- read_excel(
   "2015-UK-general-election-data-results-WEB.xlsx", 
@@ -46,51 +48,23 @@ general.results <- general.results %>%
     ld = ifelse(is.na(ld), 0, ld),
     snp = ifelse(is.na(snp), 0, snp),
     ukip = ifelse(is.na(ukip), 0, ukip),
-    left.total = lab + ld + snp + green,
-    right.total = con + ukip
+    other = total.votes - (con + green + lab + ld + snp + ukip)
   ) %>%
-  mutate(other = total.votes - (con + green + lab + ld + snp + ukip)) %>%
   mutate(
-    con.15 = con / total.votes * 100,
-    green.15 = green / total.votes * 100,
-    lab.15 = lab / total.votes * 100,
-    ld.15 = ld / total.votes * 100,
-    snp.15 = snp / total.votes * 100,
-    ukip.15 = ukip / total.votes * 100,
-    other.15 = other / total.votes * 100,
-    left.total.15 = left.total / total.votes * 100,
-    right.total.15 = right.total / total.votes * 100
+    con.pct = con / total.votes * 100,
+    green.pct = green / total.votes * 100,
+    lab.pct = lab / total.votes * 100,
+    ld.pct = ld / total.votes * 100,
+    snp.pct = snp / total.votes * 100,
+    ukip.pct = ukip / total.votes * 100,
+    other.pct = other / total.votes * 100
   )
 
-# Load brexit vote results
-brexit.results <- read_csv(
-  "Final estimates of the Leave vote share in the EU referendum - google_sheets.csv",
-  col_names = c(
-    "id",
-    "leave.estimate",
-    "leave.exact",
-    "leave.16"
-  ),
-  col_types = "c_dd_d__",
-  skip = 1
-)
-
-# Flag results that are known exactly
-brexit.results$leave.exact <- !is.na(brexit.results$leave.exact)
-
-# Merge results
-merged.results <- general.results %>%
-  left_join(brexit.results, by = "id")
-
-# Adjust percents for consistency
-merged.results$leave.estimate <- merged.results$leave.estimate * 100
-merged.results$leave.16 <- merged.results$leave.16 * 100
-
-VoteDetails <- function(r) {
+AnalyzePartyVotes <- function(r) {
   parties <- data_frame(
     party = c("con", "green", "lab", "ld", "snp", "ukip"),
     position = c("leave", "remain", "remain", "remain", "remain", "leave"),
-    votes = c(r$con, r$green, r$lab, r$ld, r$snp, r$ukip)
+    votes = c(r$con.pct, r$green.pct, r$lab.pct, r$ld.pct, r$snp.pct, r$ukip.pct)
   ) %>% arrange(desc(votes))
   
   # Winner
@@ -105,7 +79,7 @@ VoteDetails <- function(r) {
     slice(1)
   
   leave.total <- leave.parties %>%
-    summarise(total = sum(votes))
+    summarise(votes = sum(votes))
   
   # Remain
   parties.remain <- parties %>%
@@ -115,142 +89,120 @@ VoteDetails <- function(r) {
     slice(1)
   
   remain.total <- parties.remain %>%
-    summarise(total = sum(votes))
+    summarise(votes = sum(votes))
+  
+  leave.ideal.case <- winner$party
+  remain.ideal.case <- winner$party
+  
+  if (leave.top$votes - remain.total$votes > SWING_MARGIN) {
+    party.status <- "Solid leave"
+  } else if (remain.top$votes - leave.total$votes > SWING_MARGIN) {
+    party.status <- "Solid remain"
+  } else if (abs(leave.top$votes - remain.top$votes) < SWING_MARGIN) {
+    party.status <- "Swing"
+    
+    leave.ideal.case <- leave.top$party
+    remain.ideal.case <- remain.top$party
+  } else {
+    party.status <- "Tactical swing"
+    
+    leave.ideal.case <- leave.top$party
+    remain.ideal.case <- remain.top$party
+  }
   
   data_frame(
     winner.party = winner$party,
+    winner.position = winner$position,
     leave.top.party = leave.top$party,
     leave.top.votes = leave.top$votes,
-    leave.total.votes = leave.total$total,
+    leave.total.votes = leave.total$votes,
     remain.top.party = remain.top$party,
     remain.top.votes = remain.top$votes,
-    remain.total.votes = remain.total$total
+    remain.total.votes = remain.total$votes,
+    party.status = party.status,
+    leave.ideal.case = leave.ideal.case,
+    remain.ideal.case = remain.ideal.case
   )
 }
+
+# Derive data from party vote totals
+general.results <- general.results %>%
+  by_row(AnalyzePartyVotes, .collate = "cols") %>%
+  setNames(gsub("1", "", names(.)))
+
+# Load brexit vote results
+brexit.results <- read_csv(
+  "Final estimates of the Leave vote share in the EU referendum - google_sheets.csv",
+  col_names = c(
+    "id",
+    "leave.16.exact",
+    "leave.16"
+  ),
+  col_types = "c__d_d__",
+  skip = 1
+)
+
+# Flag results that are known exactly
+brexit.results$leave.16.exact <- !is.na(brexit.results$leave.16.exact)
+
+# Adjust percents for consistency
+brexit.results$leave.16 <- brexit.results$leave.16 * 100
 
 # Find possible Brexit swing votes
 BrexitSwingStatus <- function(leave, swing) {
   if (is.na(leave)) {
     return(NA)
-  } else if (leave < 50 - swing) {
+  } else if (leave < 50 - SWING_MARGIN) {
     return("Solid remain")
-  } else if (leave < 50) {
-    return("Could swing to leave")
-  } else if (leave <= 50 + swing) {
-    return ("Could swing to remain")
-  } else {
+  } else if (leave > 50 + SWING_MARGIN) {
     return("Solid leave")
-  }
-}
-
-PartySwingStatus <- function(left, right, swing) {
-  if (right - left > swing) {
-    return("Solid right")
-  } else if (left - right > swing) {
-    return("Solid left")
   } else {
     return("Swing")
   }
 }
 
-TacticalRemainVote <- function(lab, ld, snp, green) {
-  m <- max(lab, ld, snp, green)
+brexit.results <- brexit.results %>%
+  rowwise() %>%
+  mutate(
+    brexit.status = BrexitSwingStatus(leave.16)
+  )
+
+# Merge results
+merged.results <- general.results %>%
+  left_join(brexit.results, by = "id")
+
+PracticalCase <- function(brexit.status, party.status, tactical) {
+  if (is.na(brexit.status)) {
+    return(NA)
+  }
   
-  if (lab == m) {
-    return("lab")
-  } else if (ld == m) {
-    return("ld")
-  } else if (snp == m) {
-    return("snp")
-  } else {
-    return("green")
+  if (brexit.status == "Swing") {
+    if ((party.status == "Swing") || (party.status == "Tactical swing")) {
+      return(tactical)
+    }
   }
-}
-
-TacticalLeaveVote <- function(con, ukip) {
-  # UKIP is closest to a win
-  if (ukip > con) {
-    return("ukip")
-  # Conservatives are closest to a win
-  } else {
-    return("con")
-  }
-}
-
-Winner2015 <- function(lab, ld, snp, green, con, ukip) {
-  m <- max(lab, ld, snp, green, con, ukip)
   
-  if (lab == m) {
-    return("lab")
-  } else if (ld == m) {
-    return("ld")
-  } else if (snp == m) {
-    return("snp")
-  } else if (green == m) {
-    return("green")
-  } else if (con == m) {
-    return("con")
-  } else {
-    return("ukip")
-  }
-}
-
-RemainBestCase <- function(left, right, swing, tactical, winner.2015) {
-  if (left + swing > right) {
-    return(tactical);
-  } else {
-    return(winner.2015)
-  }
-}
-
-LeaveBestCase <- function(left, right, swing, tactical, winner.2015) {
-  if (right + swing > left) {
-    return(tactical);
-  } else {
-    return(winner.2015)
-  }
-}
-
-PracticalCase <- function(brexit.swing, party.swing, tactical) {
-  if (is.na(brexit.swing)) {
-    return(NA)
-  } else if ((brexit.swing == "Solid remain") & (party.swing == "Solid left")) {
-    return(NA)
-  } else if ((brexit.swing == "Solid leave") & (party.swing == "Solid right")) {
-    return(NA)
-  } else {
-    return(tactical)
-  }
+  NA
 }
 
 merged.results <- merged.results %>%
   rowwise() %>%
   mutate(
-    vote.details = VoteDetails(con, green, lab, ld, snp, ukip),
-    brexit.swing.status.5 = BrexitSwingStatus(leave.16, 5),
-    brexit.swing.status.10 = BrexitSwingStatus(leave.16, 10),
-    party.swing.status.5 = PartySwingStatus(left.total.15, right.total.15, 5),
-    party.swing.status.10 = PartySwingStatus(left.total.15, right.total.15, 10),
-    tactical.remain.vote = TacticalRemainVote(lab, ld, snp, green),
-    tactical.leave.vote = TacticalLeaveVote(con, ukip),
-    winner.2015 = Winner2015(lab, ld, snp, green, con, ukip),
-    remain.best.case = RemainBestCase(left.total.15, right.total.15, 5, tactical.remain.vote, winner.2015),
-    leave.best.case = LeaveBestCase(left.total.15, right.total.15, 5, tactical.leave.vote, winner.2015),
-    remain.practical.case = PracticalCase(brexit.swing.status.5, party.swing.status.5, tactical.remain.vote),
-    leave.practical.case = PracticalCase(brexit.swing.status.5, party.swing.status.5, tactical.leave.vote)
+    leave.practical.case = PracticalCase(brexit.status, party.status, leave.top.party),
+    remain.practical.case = PracticalCase(brexit.status, party.status, remain.top.party)
   )
 
 write_csv(merged.results, "merged.results.csv")
 
+# graphic <- merged.results
 graphic <- merged.results %>%
   select(
     id, name,
-    remain.best.case, leave.best.case,
-    remain.practical.case, leave.practical.case,
-    left.total.15, right.total.15,
-    leave.16,
-    tactical.remain.vote, tactical.leave.vote,
-    brexit.swing.status.5, party.swing.status.5
-  )    
+    leave.total.votes, remain.total.votes,
+    leave.top.party, remain.top.party,
+    leave.ideal.case, remain.ideal.case,
+    leave.practical.case, remain.practical.case,
+    leave.16, leave.16.exact
+  )
 
 write_csv(graphic, "src/data/graphic.csv")

@@ -1,9 +1,9 @@
 {
     "lookup_hed": "How to cast a tactical vote",
-    "constituency_label": "I live in...",
-    "stance_label": "I believe…",
-    "stance_leave": "Theresa May is right. Let's leave it all behind.",
-    "stance_remain": "Theresa May is wrong. We should maintain close of ties to the EU.",
+    "constituency_label": "Where do you vote?",
+    "stance_label": "Do you support Theresa May’s plans for Brexit?",
+    "stance_leave": "Yes! Leave Europe to the mainlanders.",
+    "stance_remain": "No! Let’s not burn any bridges.",
     "section_b_hed": "Methodology",
     "lab": "Labour",
     "ld": "Liberal Democrats",
