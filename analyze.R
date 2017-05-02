@@ -1,6 +1,7 @@
 library(dplyr)
 library(readr)
 library(readxl)
+library(reshape2)
 
 # Load general election id mapping
 id.mapping <- read_excel(
@@ -84,6 +85,48 @@ merged.results <- general.results %>%
 # Adjust percents for consistency
 merged.results$leave.estimate <- merged.results$leave.estimate * 100
 merged.results$leave.16 <- merged.results$leave.16 * 100
+
+VoteDetails <- function(r) {
+  parties <- data_frame(
+    party = c("con", "green", "lab", "ld", "snp", "ukip"),
+    position = c("leave", "remain", "remain", "remain", "remain", "leave"),
+    votes = c(r$con, r$green, r$lab, r$ld, r$snp, r$ukip)
+  ) %>% arrange(desc(votes))
+  
+  # Winner
+  winner <- parties %>%
+    slice(1)
+  
+  # Leave
+  leave.parties <- parties %>%
+    filter(position == "leave")
+  
+  leave.top <- leave.parties %>%
+    slice(1)
+  
+  leave.total <- leave.parties %>%
+    summarise(total = sum(votes))
+  
+  # Remain
+  parties.remain <- parties %>%
+    filter(position == "remain")
+  
+  remain.top <- parties.remain %>%
+    slice(1)
+  
+  remain.total <- parties.remain %>%
+    summarise(total = sum(votes))
+  
+  data_frame(
+    winner.party = winner$party,
+    leave.top.party = leave.top$party,
+    leave.top.votes = leave.top$votes,
+    leave.total.votes = leave.total$total,
+    remain.top.party = remain.top$party,
+    remain.top.votes = remain.top$votes,
+    remain.total.votes = remain.total$total
+  )
+}
 
 # Find possible Brexit swing votes
 BrexitSwingStatus <- function(leave, swing) {
@@ -183,6 +226,7 @@ PracticalCase <- function(brexit.swing, party.swing, tactical) {
 merged.results <- merged.results %>%
   rowwise() %>%
   mutate(
+    vote.details = VoteDetails(con, green, lab, ld, snp, ukip),
     brexit.swing.status.5 = BrexitSwingStatus(leave.16, 5),
     brexit.swing.status.10 = BrexitSwingStatus(leave.16, 10),
     party.swing.status.5 = PartySwingStatus(left.total.15, right.total.15, 5),
@@ -204,7 +248,9 @@ graphic <- merged.results %>%
     remain.best.case, leave.best.case,
     remain.practical.case, leave.practical.case,
     left.total.15, right.total.15,
-    leave.16
+    leave.16,
+    tactical.remain.vote, tactical.leave.vote,
+    brexit.swing.status.5, party.swing.status.5
   )    
 
 write_csv(graphic, "src/data/graphic.csv")
