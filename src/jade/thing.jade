@@ -3,17 +3,17 @@ each graf in section_a
 
 h2= lookup_hed
 
-p
-    strong= constituency_label
+p.picker
+    label= constituency_label
     select#constituency
-    
-p 
-    strong= stance_label
+
+p.picker
+    label= stance_label
     select#stance
         option(value='')
         option(value='leave')= stance_leave
         option(value='remain')= stance_remain
-    
+        
 p#brexit-result
 
 h2= section_b_hed
