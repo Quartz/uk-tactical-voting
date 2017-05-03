@@ -267,10 +267,10 @@ function render() {
  */
 function renderGraphic(config) {
 	// Configuration
-	var aspectRatio = isMobile ? 4 / 5 : 6 / 7;
+	var aspectRatio = 4 / 5;
 
 	var margins = {
-		top: 10,
+		top: 0,
 		right: 20,
 		bottom: 50,
 		left: 30
