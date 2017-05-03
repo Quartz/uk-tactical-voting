@@ -47,7 +47,12 @@ var PARTY_COLORS = {
 	'NA': '#E4E4E4'
 }
 
-var TEMPLATE = _.template('In 2015, <%= total %>% of <%= constituency %> voters chose a party that supported <%= position %> the EU. In 2016, approximately <%= brexitVote %>% voted to leave the EU. <%= solid %> If you wish to cast a tactical vote <%= position2 %> Theresa May\'s Brexit, the data suggest you should cast a ballot for <%= tactical %>. <%= constituency %> is highlighted in black on the maps in throughout this story.');
+var EXPLAINER_TEMPLATE = _.template('\
+	Your constituency voted in the <%= party %> candidate in the 2015 general \
+	election and voted to <%= brexitVote %> the EU in the 2016 Brexit \
+	referendum. If you would like to <%= position %> Theresa May’s Brexit, you \
+	should vote <%= tactical %> in the 2017 election. Because you are in a \
+	<%= seat %> seat, <%= consequence %>.')
 
 /**
  * Initialize the graphic.
@@ -59,9 +64,6 @@ function init() {
 		formatData(data);
 		remainIdealWinners = countWinners('remain.ideal.case');
 		leaveIdealWinners = countWinners('leave.ideal.case');
-
-		console.log(remainIdealWinners);
-		console.log(leaveIdealWinners);
 
 		populateSelects(data);
 
@@ -94,13 +96,18 @@ function populateSelects(data) {
 var onSelectChange = function(d) {
 	var stanceSelect = d3.select('#stance');
 	var constituencySelect = d3.select('#constituency');
-	var brexitResult = d3.select('#brexit-result');
+
+	var lookup = d3.select('#lookup');
+	var result = lookup.select('.result');
+	var vote = result.select('.result .vote');
+	var explainer = result.select('.result .explainer');
 
 	var stance = stanceSelect.property('value');
 	var slug = constituencySelect.property('value');
 
 	if (stance == '' || slug == '') {
-		brexitResult.text('');
+		vote.text('');
+		explainer.text('');
 
 		return;
 	}
@@ -108,24 +115,33 @@ var onSelectChange = function(d) {
 	var d = graphicData[slug];
 
 	var templateArgs = {
-		'constituency': d['name'],
-		'brexitVote': parseFloat(d['leave.16']).toFixed(1),
-		'solid': ''
+		'party': PARTY_NAMES[d['winner.party']],
+		'brexitVote': d['leave.16'] > 50 ? 'leave' : 'remain in'
 	};
 
-	if (stance == 'leave') {
-		templateArgs['position'] = 'leaving';
-		templateArgs['position2'] = 'supporting';
-		templateArgs['total'] = parseFloat(d['leave.total.votes']).toFixed(1);
-		templateArgs['tactical'] = INLINE_PARTY_NAMES[d['leave.top.party']];
+	if (d['party.status'] == 'Solid remain' || d['party.status'] == 'Solid leave') {
+		templateArgs['seat'] = 'solid remain';
+		templateArgs['consequence'] = 'it is unlikely that your vote can do much to change the outcome of the new election';
 	} else {
-		templateArgs['position'] = 'remaining in';
-		templateArgs['position2'] = 'opposing';
-		templateArgs['total'] = parseFloat(d['remain.total.votes']).toFixed(1);
-		templateArgs['tactical'] = INLINE_PARTY_NAMES[d['remain.top.party']];
+		templateArgs['seat'] = 'swing';
+		templateArgs['consequence'] = 'your vote could make a difference to the outcome of the new election';
 	}
 
-	brexitResult.text(TEMPLATE(templateArgs));
+	if (stance == 'leave') {
+		templateArgs['position'] = 'support';
+
+		var voteParty = d['leave.top.party']
+		templateArgs['tactical'] = PARTY_NAMES[voteParty];
+	} else {
+		templateArgs['position'] = 'oppose';
+
+		var voteParty = d['remain.top.party']
+		templateArgs['tactical'] = PARTY_NAMES[voteParty];
+	}
+
+	// result.attr('style', 'background-color: ' + PARTY_COLORS[voteParty]);
+	vote.html('Vote ' + templateArgs['tactical'] + '!</span>')
+	explainer.text(EXPLAINER_TEMPLATE(templateArgs));
 
 	// Highlight constituency
 	d3.selectAll('path')

@@ -23,7 +23,7 @@ general.results <- general.results %>%
   # Filter out total row
   filter(!is.na(`Press Association ID Number`)) %>%
   left_join(id.mapping, by.x = `Press Association ID Number`, by.y = PANO) %>%
-  select(`Constituency ID`, `Constituency Name`, `Total number of valid votes counted`, C, Green, Lab, LD, SNP, UKIP)
+  select(`Constituency ID`, `Constituency Name`, `Total number of valid votes counted`, C, Green, Lab, `Lab Co-op`, LD, SNP, UKIP)
 
 # Clean up column names
 colnames(general.results) <- c(
@@ -33,6 +33,7 @@ colnames(general.results) <- c(
   "con",
   "green",
   "lab",
+  "lab_coop",
   "ld",
   "snp",
   "ukip"
@@ -44,12 +45,13 @@ general.results <- general.results %>%
   mutate(
     con = ifelse(is.na(con), 0, con),
     green = ifelse(is.na(green), 0, green),
-    lab = ifelse(is.na(lab), 0, lab),
+    lab = ifelse(is.na(lab), 0, lab) + ifelse(is.na(lab_coop), 0, lab_coop),
     ld = ifelse(is.na(ld), 0, ld),
     snp = ifelse(is.na(snp), 0, snp),
     ukip = ifelse(is.na(ukip), 0, ukip),
     other = total.votes - (con + green + lab + ld + snp + ukip)
   ) %>%
+  select(-lab_coop) %>%
   mutate(
     con.pct = con / total.votes * 100,
     green.pct = green / total.votes * 100,
@@ -198,7 +200,7 @@ write_csv(merged.results, "merged.results.csv")
 graphic <- merged.results %>%
   select(
     id, name,
-    leave.total.votes, remain.total.votes,
+    winner.party, party.status,
     leave.top.party, remain.top.party,
     leave.ideal.case, remain.ideal.case,
     leave.practical.case, remain.practical.case,
