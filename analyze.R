@@ -202,7 +202,7 @@ graphic <- merged.results %>%
     leave.top.party, remain.top.party,
     leave.ideal.case, remain.ideal.case,
     leave.practical.case, remain.practical.case,
-    leave.16, leave.16.exact
+    leave.16
   )
 
 write_csv(graphic, "src/data/graphic.csv")

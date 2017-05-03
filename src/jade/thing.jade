@@ -1,8 +1,4 @@
-div.section-a
-    each graf in section_a
-        p!= graf
-
-div.lookup
+div#lookup
     h2= lookup_hed
 
     p.picker
@@ -18,10 +14,10 @@ div.lookup
         
     p#brexit-result
 
-div.section-b
-    h2= section_b_hed
+div#section-1
+    h2= section_1_hed
 
-    each graf in section_b
+    each graf in section_1
         p!= graf
     
 ul#legend
@@ -44,21 +40,21 @@ ul#legend
         b
         div= ukip
         
-div#remain-ideal-case.map
-    h3= ideal_remain
-            
+div#remain-practical-case.map
+    h3= practical_remain
+    
     div.graphic
     
-    div.bars
+div#leave-practical-case.map
+    h3= practical_leave
     
-div#leave-ideal-case.map
-    h3= ideal_leave
-            
     div.graphic
-    
-    div.bars
 
-p= practical_explainer
+div#section-2
+    h2= section_2_hed
+
+    each graf in section_2
+        p!= graf
 
 ul#legend
     li.lab
@@ -80,23 +76,25 @@ ul#legend
         b
         div= ukip
 
-div#remain-practical-case.map
-    h3= practical_remain
-    
+div#remain-ideal-case.map
+    h3= ideal_remain
+            
     div.graphic
     
-div#leave-practical-case.map
-    h3= practical_leave
+    div.bars
     
+div#leave-ideal-case.map
+    h3= ideal_leave
+            
     div.graphic
+    
+    div.bars
 
-div.section-c
-    h2= section_c_hed
+div#section-3
+    h2= section_3_hed
 
-    each graf in section_c
+    each graf in section_3
         p!= graf
     
 div#secret-render
     div.graphic
-
-div.footer!= footer
