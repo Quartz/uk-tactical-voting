@@ -47,7 +47,7 @@ var PARTY_COLORS = {
 	'NA': '#E4E4E4'
 }
 
-var TEMPLATE = _.template('In 2015, <%= total %>% of <%= constituency %> voters chose a party that supported <%= position %> the EU. In 2016, approximately <%= brexitVote %>% voted to leave the EU. <%= solid %> If you wish to cast a tactical vote <%= position2 %> Theresa May\'s Brexit, the data suggest you should cast a ballot for <%= tactical %>. <%= constituency %> is highlighted in black on the maps in throughout this story.');
+var TEMPLATE = _.template('In 2015, <%= total %>% of <%= constituency %> voters chose a party that supported <%= position %> the EU. In 2016, approximately <%= brexitVote %>% voted to leave the EU. <%= solid %> If you wish to cast a tactical vote <%= position2 %> Theresa May\'s Brexit, the data suggest you should cast a ballot for <%= tactical %>.');
 
 /**
  * Initialize the graphic.
@@ -125,20 +125,17 @@ var onSelectChange = function(d) {
 		templateArgs['tactical'] = INLINE_PARTY_NAMES[d['remain.top.party']];
 	}
 
-	// if (d['party.status'] == 'Solid left' && d['brexit.swing.status.5'] == 'Solid left') {
-	// 	d['solid'] == '';
-	// } else if (d['party.status'] == 'Solid right' && d['brexit.swing.status.5'] == 'Solid right') {
-	// 	d['solid'] == '';
-	// }
-
 	brexitResult.text(TEMPLATE(templateArgs));
 
-	d3.selectAll('path')
-		.attr('stroke', '#FFFFFF')
-
-	var mapElements = d3.selectAll('path.' + d['slug'])
-		.attr('stroke', '#000000')
-		.moveToFront();
+	// Highlight constituency
+	// d3.selectAll('path')
+	// 	.attr('stroke-width', '1px')
+	// 	.attr('stroke', '#FFFFFF')
+	//
+	// var mapElements = d3.selectAll('path.' + d['slug'])
+	// 	.attr('stroke-width', '2px')
+	// 	.attr('stroke', '#d190b6')
+	// 	.moveToFront();
 }
 
 d3.selection.prototype.moveToFront = function() {
