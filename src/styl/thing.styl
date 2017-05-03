@@ -67,6 +67,43 @@ ul#legend
 		&.none b
 			background-color: $none
 
+.graphic-wrapper
+	position: relative
+	font-family: $qz-sans-light
+
+.item-body ul.labels {
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	border: none;
+
+	li {
+		position: absolute;
+		text-align: right;
+		color: #666;
+		display: table;
+		-webkit-font-smoothing: antialiased;
+
+		span {
+			display: table-cell;
+			vertical-align: middle;
+			font-family: $qz-sans-light
+			font-size: 20px
+		}
+	}
+}
+
+// .bars rect {
+// 	fill: $qz-purp-3
+// }
+
+.value text {
+	font-size: 20px;
+	-webkit-font-smoothing: antialiased;
+	fill: #999
+}
+
 #secret-render
 	display: none;
 

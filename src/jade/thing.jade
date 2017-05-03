@@ -1,25 +1,28 @@
-each graf in section_a
-    p!= graf
+div.section-a
+    each graf in section_a
+        p!= graf
 
-h2= lookup_hed
+div.lookup
+    h2= lookup_hed
 
-p.picker
-    label= constituency_label
-    select#constituency
+    p.picker
+        label= constituency_label
+        select#constituency
 
-p.picker
-    label= stance_label
-    select#stance
-        option(value='')
-        option(value='leave')= stance_leave
-        option(value='remain')= stance_remain
+    p.picker
+        label= stance_label
+        select#stance
+            option(value='')
+            option(value='leave')= stance_leave
+            option(value='remain')= stance_remain
         
-p#brexit-result
+    p#brexit-result
 
-h2= section_b_hed
+div.section-b
+    h2= section_b_hed
 
-each graf in section_b
-    p!= graf
+    each graf in section_b
+        p!= graf
     
 ul#legend
     li.lab
@@ -46,10 +49,14 @@ div#remain-ideal-case.map
             
     div.graphic
     
+    div.bars
+    
 div#leave-ideal-case.map
     h3= ideal_leave
             
     div.graphic
+    
+    div.bars
 
 p= practical_explainer
 
@@ -63,10 +70,11 @@ div#leave-practical-case.map
     
     div.graphic
 
-h2= section_c_hed
+div.section-c
+    h2= section_c_hed
 
-each graf in section_c
-    p!= graf
+    each graf in section_c
+        p!= graf
     
 div#secret-render
     div.graphic

@@ -51,6 +51,19 @@ function throttle(fn, threshold, scope) {
 	};
 };
 
+/*
+ * Convert key/value pairs to a style string.
+ */
+var formatStyle = function(props) {
+    var s = '';
+
+    for (var key in props) {
+        s += key + ': ' + props[key].toString() + '; ';
+    }
+
+    return s;
+}
+
 /**
  * Move a D3 selection to the top of the rendering stack.
  */
@@ -75,5 +88,6 @@ d3.selection.prototype.moveToBack = function() {
 module.exports = {
 	makeTranslate: makeTranslate,
 	classify: classify,
-	throttle: throttle
+	throttle: throttle,
+	formatStyle: formatStyle
 }
