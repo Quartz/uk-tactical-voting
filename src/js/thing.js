@@ -153,10 +153,11 @@ var onSelectChange = function(d) {
 		templateArgs['tactical'] = PARTY_NAMES[voteParty];
 	}
 
-	// result.attr('style', 'background-color: ' + PARTY_COLORS[voteParty]);
-	vote.html('Vote ' + templateArgs['tactical'] + '!</span>')
+	vote.html('Vote ' + templateArgs['tactical'] + '!</span>');
 	explainer.html(EXPLAINER_TEMPLATE(templateArgs));
-	result.style('display', 'block')
+
+	result.style('border', '5px solid ' + PARTY_COLORS[voteParty]);
+	result.style('display', 'block');
 
 	// Highlight constituency
 	d3.selectAll('path')
