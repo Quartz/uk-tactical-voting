@@ -121,8 +121,7 @@ var onSelectChange = function(d) {
 	var slug = constituencySelect.property('value');
 
 	if (stance == '' || slug == '') {
-		vote.html('');
-		explainer.html('');
+		result.style('display', 'none')
 
 		return;
 	}
@@ -157,6 +156,7 @@ var onSelectChange = function(d) {
 	// result.attr('style', 'background-color: ' + PARTY_COLORS[voteParty]);
 	vote.html('Vote ' + templateArgs['tactical'] + '!</span>')
 	explainer.html(EXPLAINER_TEMPLATE(templateArgs));
+	result.style('display', 'block')
 
 	// Highlight constituency
 	d3.selectAll('path')

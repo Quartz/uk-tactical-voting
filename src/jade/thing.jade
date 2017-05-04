@@ -2,11 +2,11 @@ div#lookup
     h2= lookup_hed
 
     p.picker
-        label= constituency_label
+        label!= constituency_label
         select#constituency
 
     p.picker
-        label= stance_label
+        label!= stance_label
         select#stance
             option(value='')
             option(value='leave')= stance_leave

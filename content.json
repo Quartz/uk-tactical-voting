@@ -1,7 +1,7 @@
 {
     "lookup_hed": "How to cast a tactical vote",
-    "constituency_label": "Where do you vote?",
-    "stance_label": "Do you support Theresa May’s plans for Brexit?",
+    "constituency_label": "<strong>Where do you vote?</strong> (Don’t know? <a href=\"http://www.bbc.com/news/politics/constituencies\">Look here</a>.)",
+    "stance_label": "<strong>Do you support Theresa May’s plans for Brexit?</strong>",
     "stance_leave": "Yes! Give May all the power she needs",
     "stance_remain": "No! Brits deserve a better deal.",
     "lab": "Labour",
@@ -15,11 +15,11 @@
     "practical_hed": "Seats where tactical voting can realistically make a difference",
     "practical_remain": "Those opposing May’s Brexit",
     "practical_leave": "Those supporting May’s Brexit",
-    "practical_footnote": "Data: <a href=\"http://www.electoralcommission.org.uk/our-work/our-research/electoral-data\">UK Electoral Commission</a>, <a href=\"https://docs.google.com/spreadsheets/d/1b71SDKPFbk-ktmUTXmDpUP5PT299qq24orEA0_TOpmw/edit?usp=sharing\">Chris Hanretty (University of East Anglia)</a>, Quartz analysis",
+    "practical_footnote": "Data: The <a href=\"http://www.electoralcommission.org.uk/our-work/our-research/electoral-data\">UK Electoral Commission</a>, <a href=\"https://docs.google.com/spreadsheets/d/1b71SDKPFbk-ktmUTXmDpUP5PT299qq24orEA0_TOpmw/edit?usp=sharing\">Chris Hanretty</a> (University of East Anglia), Quartz analysis",
     "ideal_hed": "Hypothetical best cases for tactical voters",
     "ideal_remain": "Those opposing May’s Brexit",
     "ideal_leave": "Those supporting May’s Brexit",
-    "ideal_footnote": "Data: <a href=\"http://www.electoralcommission.org.uk/our-work/our-research/electoral-data\">UK Electoral Commission</a>, Quartz analysis",
+    "ideal_footnote": "Data: The <a href=\"http://www.electoralcommission.org.uk/our-work/our-research/electoral-data\">UK Electoral Commission</a>, Quartz analysis",
     "section_1_hed": "Why does tactical voting matter?",
     "section_2_hed": "What difference would it make?",
     "section_3_hed": "Methodology",
@@ -37,6 +37,7 @@
         "There is a chance for a greater swing. Such a hypothetical best-case scenario would make a much larger difference to the outcome of the election, as can be seen in the maps below."
     ],
     "section_3": [
-        "For this tactical voting guide, we’ve made a few assumptions. First, we assume that every voter on only one side of the Brexit divide will engage in tactical voting. That, of course, is unlikely but it helps us understand the range of extreme outcomes for the 2017 election. Second, each side’s tactical vote is aided by a 5% swing from the left to the right (or vice versa), which we believe is a modest estimate. The final swing may be a lot more or a lot less. Finally, we understand that there are, for instance, Labour voters who would prefer May’s Brexit and Conservative voters who would oppose it. Our model is based on what the parties currently say they are likely to do if given power, but our swing vote calculations take into account some amount of reverse tactical voting (where a right-leaning remain voter chooses UKIP over Conservatives to undermine May’s Brexit or a left-leaning leave voter chooses Liberal Democrats over Labour)."
+        "For this tactical voting guide, we’ve made a few assumptions. First, we assume that every voter on only one side of the Brexit divide will engage in tactical voting. That, of course, is unlikely but it helps us understand the range of extreme outcomes for the 2017 election. Second, each side’s tactical vote is aided by a 5% swing from the left to the right (or vice versa), which we believe is a modest estimate. The final swing may be a lot more or a lot less. Finally, we understand that there are, for instance, Labour voters who would prefer May’s Brexit and Conservative voters who would oppose it. Our model is based on what the parties currently say they are likely to do if given power, but our swing vote calculations take into account some amount of reverse tactical voting (where a right-leaning remain voter chooses UKIP over Conservatives to undermine May’s Brexit or a left-leaning leave voter chooses Liberal Democrats over Labour).",
+        "Data used in this story comes from three sources: Official tallies of the 2015 election results, official tallies of the 2015 Brexit referendum results for a small set of constituencies, and statistical estimates of the referendum results for the remainder. Those estimates were produced by <a href=\"https://docs.google.com/spreadsheets/d/1b71SDKPFbk-ktmUTXmDpUP5PT299qq24orEA0_TOpmw/edit?usp=sharing\">Chris Hanretty</a> of the University of East Anglia. In addition, when identifying possible swing seats Quartz has factored in a potential 5% swing to all votes. None of the data described here should be construed as a prediction of election results."
     ]
 }
