@@ -2,7 +2,7 @@
     "lookup_hed": "How to cast a tactical vote",
     "constituency_label": "<strong>Where do you vote?</strong> (Don’t know? <a href=\"http://www.bbc.com/news/politics/constituencies\">Look here</a>.)",
     "stance_label": "<strong>Do you support Theresa May’s plans for Brexit?</strong>",
-    "stance_leave": "Yes! Give May all the power she needs",
+    "stance_leave": "Yes! Brexit means Brexit.",
     "stance_remain": "No! Brits deserve a better deal.",
     "lab": "Labour",
     "ld": "Liberal Democrats",
@@ -15,7 +15,7 @@
     "practical_hed": "Seats where tactical voting can realistically make a difference",
     "practical_remain": "Those opposing May’s Brexit",
     "practical_leave": "Those supporting May’s Brexit",
-    "practical_footnote": "Data: The <a href=\"http://www.electoralcommission.org.uk/our-work/our-research/electoral-data\">UK Electoral Commission</a>, <a href=\"https://docs.google.com/spreadsheets/d/1b71SDKPFbk-ktmUTXmDpUP5PT299qq24orEA0_TOpmw/edit?usp=sharing\">Chris Hanretty</a> (University of East Anglia), Quartz analysis",
+    "practical_footnote": "Data: The <a href=\"http://www.electoralcommission.org.uk/our-work/our-research/electoral-data\">UK Electoral Commission</a>, the <a href=\"http://www.bbc.com/news/uk-politics-38762034\">BBC</a>, <a href=\"https://docs.google.com/spreadsheets/d/1b71SDKPFbk-ktmUTXmDpUP5PT299qq24orEA0_TOpmw/edit?usp=sharing\">Chris Hanretty</a> (University of East Anglia), Quartz analysis",
     "ideal_hed": "Hypothetical best cases for tactical voters",
     "ideal_remain": "Those opposing May’s Brexit",
     "ideal_leave": "Those supporting May’s Brexit",
@@ -37,7 +37,12 @@
         "There is a chance for a greater swing. Such a hypothetical best-case scenario would make a much larger difference to the outcome of the election, as can be seen in the maps below."
     ],
     "section_3": [
-        "For this tactical voting guide, we’ve made a few assumptions. First, we assume that every voter on only one side of the Brexit divide will engage in tactical voting. That, of course, is unlikely but it helps us understand the range of extreme outcomes for the 2017 election. Second, each side’s tactical vote is aided by a 5% swing from the left to the right (or vice versa), which we believe is a modest estimate. The final swing may be a lot more or a lot less. Finally, we understand that there are, for instance, Labour voters who would prefer May’s Brexit and Conservative voters who would oppose it. Our model is based on what the parties currently say they are likely to do if given power, but our swing vote calculations take into account some amount of reverse tactical voting (where a right-leaning remain voter chooses UKIP over Conservatives to undermine May’s Brexit or a left-leaning leave voter chooses Liberal Democrats over Labour).",
-        "Data used in this story comes from three sources: Official tallies of the 2015 election results, official tallies of the 2015 Brexit referendum results for a small set of constituencies, and statistical estimates of the referendum results for the remainder. Those estimates were produced by <a href=\"https://docs.google.com/spreadsheets/d/1b71SDKPFbk-ktmUTXmDpUP5PT299qq24orEA0_TOpmw/edit?usp=sharing\">Chris Hanretty</a> of the University of East Anglia. In addition, when identifying possible swing seats Quartz has factored in a potential 5% swing to all votes. None of the data described here should be construed as a prediction of election results."
+        "Data used in this story comes from three sources. First, we use official tallies of the <a href=\"http://www.electoralcommission.org.uk/our-work/our-research/electoral-data\">2015 general election results</a> to understand the balance of power between the parties. Second, we use official tallies of the Brexit referendum <a href=\"http://www.bbc.com/news/uk-politics-38762034\">gathered by the BBC</a> from the small number of constituencies that publish them. Third, for those seats that didn’t publish official referendum tallies, we use estimates produced by <a href=\"https://docs.google.com/spreadsheets/d/1b71SDKPFbk-ktmUTXmDpUP5PT299qq24orEA0_TOpmw/edit?usp=sharing\">Chris Hanretty</a> of the University of East Anglia.",
+        "We identify as a swing seat any constituency where tactical voting could bring the margin between voters on different sides of the leave/remain issue to less than 5%. This is an arbitrary threshold and it’s entirely possible the real votes will swing by much more or much less.",
+        "When projecting “ideal” outcomes we assume that every voter on just one side of the Brexit divide will engage in tactical voting. That, of course, is extremely unlikely, but it helps us understand the range of possible outcomes for the 2017 election. We do not account for the case where voters on one side might engage in <em>reverse tactical voting</em>, intentionally splitting their vote to undermine their party’s position on Brexit.",
+        "Similarly, when looking at Brexit referendum results, we’ve assumed that a “swing seat” is any place where the gap between leave and remain voters was at most 5%.",
+        "Parties included in the “other” category are the Democratic Unionist Party, Plaid Cymru, the Social Democratic and Labor Party, Sinn Fein, and the Ulster Unionist Party.",
+        "None of the data described here should be construed as a prediction of future election results.",
+        ""
     ]
 }
