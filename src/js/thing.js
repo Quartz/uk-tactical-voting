@@ -44,15 +44,26 @@ var PARTY_COLORS = {
 	'green': '#6AB023',
 	'con': '#333399',
 	'ukip': '#70147A',
+
+	'dup': '#777',
+	'pc': '#777',
+	'sdlp': '#777',
+	'sf': '#777',
+	'uup': '#777',
+
+	'other': '#777',
 	'NA': '#E4E4E4'
 }
 
 var EXPLAINER_TEMPLATE = _.template('\
-	Your constituency voted in the <%= party %> candidate in the 2015 general \
-	election and voted to <%= brexitVote %> the EU in the 2016 Brexit \
+	Your constituency <strong>voted in the <%= party %> candidate</strong> \
+	in the 2015 general \
+	election and <strong>voted to <%= brexitVote %> the EU</strong> in the \
+	2016 Brexit \
 	referendum. If you would like to <%= position %> Theresa May’s Brexit, you \
-	should vote <%= tactical %> in the 2017 election. Because you are in a \
-	<%= seat %> seat, <%= consequence %>.')
+	should <strong>tactically vote <%= tactical %></strong> in the 2017 \
+	election. Because you are \
+	<strong><%= seat %></strong>, <%= consequence %>.')
 
 /**
  * Initialize the graphic.
@@ -62,8 +73,12 @@ var EXPLAINER_TEMPLATE = _.template('\
 function init() {
 	request.csv('data/graphic.csv', function(error, data) {
 		formatData(data);
-		remainIdealWinners = countWinners('remain.ideal.case');
-		leaveIdealWinners = countWinners('leave.ideal.case');
+
+		remainPracticalWinners = countPracticalWinners('remain.practical.case');
+		leavePracticalWinners = countPracticalWinners('leave.practical.case');
+
+		remainIdealWinners = countIdealWinners('remain.ideal.case');
+		leaveIdealWinners = countIdealWinners('leave.ideal.case');
 
 		populateSelects(data);
 
@@ -106,8 +121,8 @@ var onSelectChange = function(d) {
 	var slug = constituencySelect.property('value');
 
 	if (stance == '' || slug == '') {
-		vote.text('');
-		explainer.text('');
+		vote.html('');
+		explainer.html('');
 
 		return;
 	}
@@ -120,10 +135,10 @@ var onSelectChange = function(d) {
 	};
 
 	if (d['party.status'] == 'Solid remain' || d['party.status'] == 'Solid leave') {
-		templateArgs['seat'] = 'solid remain';
+		templateArgs['seat'] = 'not in a swing seat';
 		templateArgs['consequence'] = 'it is unlikely that your vote can do much to change the outcome of the new election';
 	} else {
-		templateArgs['seat'] = 'swing';
+		templateArgs['seat'] = 'in a swing seat';
 		templateArgs['consequence'] = 'your vote could make a difference to the outcome of the new election';
 	}
 
@@ -141,7 +156,7 @@ var onSelectChange = function(d) {
 
 	// result.attr('style', 'background-color: ' + PARTY_COLORS[voteParty]);
 	vote.html('Vote ' + templateArgs['tactical'] + '!</span>')
-	explainer.text(EXPLAINER_TEMPLATE(templateArgs));
+	explainer.html(EXPLAINER_TEMPLATE(templateArgs));
 
 	// Highlight constituency
 	d3.selectAll('path')
@@ -184,7 +199,7 @@ function formatData(data) {
 	});
 }
 
-function countWinners(series) {
+function countIdealWinners(series) {
 	var result = {
 		'lab': 0,
 		'snp': 0,
@@ -196,7 +211,50 @@ function countWinners(series) {
 	}
 
 	_.each(graphicData, function(d) {
-		result[d[series]] += 1;
+		var party = d[series];
+
+		if (!_.has(result, party)) {
+			party = 'other';
+		}
+
+		result[party] += 1;
+	})
+
+	formatted = [];
+
+	_.each(result, function(v, k) {
+		formatted.push({
+			'label': k,
+			'amt': v
+		})
+	});
+
+	return _.reverse(_.sortBy(formatted, 'amt'));
+}
+
+function countPracticalWinners(series) {
+	var result = {
+		'lab': 0,
+		'snp': 0,
+		'ld': 0,
+		'green': 0,
+		'con': 0,
+		'ukip': 0,
+		'other': 0
+	}
+
+	_.each(graphicData, function(d) {
+		var party = d[series];
+
+		if (party == 'NA') {
+			party = d['winner.party'];
+		}
+
+		if (!_.has(result, party)) {
+			party = 'other';
+		}
+
+		result[party] += 1;
 	})
 
 	formatted = [];
@@ -237,6 +295,30 @@ function render() {
 
 	copyAndStyleGraphic({
 		from:'#secret-render .graphic',
+		to: '#remain-practical-case .graphic',
+		display: 'remain.practical.case'
+	});
+
+	renderBarChart({
+		container: '#remain-practical-case .bars',
+		width: isMobile ? width : width / 2,
+		data: remainPracticalWinners
+	})
+
+	copyAndStyleGraphic({
+		from:'#secret-render .graphic',
+		to: '#leave-practical-case .graphic',
+		display: 'leave.practical.case'
+	});
+
+	renderBarChart({
+		container: '#leave-practical-case .bars',
+		width: isMobile ? width : width / 2,
+		data: leavePracticalWinners
+	})
+
+	copyAndStyleGraphic({
+		from:'#secret-render .graphic',
 		to: '#remain-ideal-case .graphic',
 		display: 'remain.ideal.case'
 	});
@@ -258,18 +340,6 @@ function render() {
 		width: isMobile ? width : width / 2,
 		data: leaveIdealWinners
 	})
-
-	copyAndStyleGraphic({
-		from:'#secret-render .graphic',
-		to: '#remain-practical-case .graphic',
-		display: 'remain.practical.case'
-	});
-
-	copyAndStyleGraphic({
-		from:'#secret-render .graphic',
-		to: '#leave-practical-case .graphic',
-		display: 'leave.practical.case'
-	});
 
 	// Inform parent frame of new height
 	fm.resize()

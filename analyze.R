@@ -23,7 +23,7 @@ general.results <- general.results %>%
   # Filter out total row
   filter(!is.na(`Press Association ID Number`)) %>%
   left_join(id.mapping, by.x = `Press Association ID Number`, by.y = PANO) %>%
-  select(`Constituency ID`, `Constituency Name`, `Total number of valid votes counted`, C, Green, Lab, `Lab Co-op`, LD, SNP, UKIP)
+  select(`Constituency ID`, `Constituency Name`, `Total number of valid votes counted`, C, DUP, Green, Lab, `Lab Co-op`, LD, PC, SDLP, SF, SNP, UKIP, UUP)
 
 # Clean up column names
 colnames(general.results) <- c(
@@ -31,12 +31,17 @@ colnames(general.results) <- c(
   "name",
   "total.votes",
   "con",
+  "dup",
   "green",
   "lab",
   "lab_coop",
   "ld",
+  "pc",
+  "sdlp",
+  "sf",
   "snp",
-  "ukip"
+  "ukip",
+  "uup"
 )
 
 # Convert counts to share of vote
@@ -44,29 +49,39 @@ general.results <- general.results %>%
   # Convert NA counts to zero
   mutate(
     con = ifelse(is.na(con), 0, con),
+    dup = ifelse(is.na(dup), 0, dup),
     green = ifelse(is.na(green), 0, green),
     lab = ifelse(is.na(lab), 0, lab) + ifelse(is.na(lab_coop), 0, lab_coop),
     ld = ifelse(is.na(ld), 0, ld),
+    pc = ifelse(is.na(pc), 0, pc),
+    sdlp = ifelse(is.na(sdlp), 0, sdlp),
+    sf = ifelse(is.na(sf), 0, sf),
     snp = ifelse(is.na(snp), 0, snp),
     ukip = ifelse(is.na(ukip), 0, ukip),
-    other = total.votes - (con + green + lab + ld + snp + ukip)
+    uup = ifelse(is.na(uup), 0, uup),
+    other = total.votes - (con + dup + green + lab + ld + pc + sdlp + sf + snp + ukip + uup)
   ) %>%
   select(-lab_coop) %>%
   mutate(
     con.pct = con / total.votes * 100,
+    dup.pct = dup / total.votes * 100,
     green.pct = green / total.votes * 100,
     lab.pct = lab / total.votes * 100,
     ld.pct = ld / total.votes * 100,
+    pc.pct = pc / total.votes * 100,
+    sdlp.pct = sdlp / total.votes * 100,
+    sf.pct = sf / total.votes * 100,
     snp.pct = snp / total.votes * 100,
     ukip.pct = ukip / total.votes * 100,
+    uup.pct = uup / total.votes * 100,
     other.pct = other / total.votes * 100
   )
 
 AnalyzePartyVotes <- function(r) {
   parties <- data_frame(
-    party = c("con", "green", "lab", "ld", "snp", "ukip"),
-    position = c("leave", "remain", "remain", "remain", "remain", "leave"),
-    votes = c(r$con.pct, r$green.pct, r$lab.pct, r$ld.pct, r$snp.pct, r$ukip.pct)
+    party = c("con", "dup", "green", "lab", "ld", "pc", "sdlp", "sf", "snp", "ukip", "uup"),
+    position = c("leave", NA, "remain", "remain", "remain", NA, NA, NA, "remain", "leave", NA),
+    votes = c(r$con.pct, r$dup.pct, r$green.pct, r$lab.pct, r$ld.pct, r$pc.pct, r$sdlp.pct, r$sf.pct, r$snp.pct, r$ukip.pct, r$uup.pct)
   ) %>% arrange(desc(votes))
   
   # Winner

@@ -23,6 +23,8 @@ div#section-1
     each graf in section_1
         p!= graf
     
+h2= practical_hed
+    
 ul#legend
     li.lab
         b
@@ -42,16 +44,28 @@ ul#legend
     li.ukip
         b
         div= ukip
+    li.other
+        b
+        div= other
+    li.none
+        b
+        div= none
         
 div#remain-practical-case.map
     h3= practical_remain
     
     div.graphic
     
+    div.bars
+    
 div#leave-practical-case.map
     h3= practical_leave
     
     div.graphic
+    
+    div.bars
+
+div.footnote!= practical_footnote
 
 div#section-2
     h2= section_2_hed
@@ -59,6 +73,8 @@ div#section-2
     each graf in section_2
         p!= graf
 
+h2= ideal_hed
+
 ul#legend
     li.lab
         b
@@ -78,6 +94,9 @@ ul#legend
     li.ukip
         b
         div= ukip
+    li.other
+        b
+        div= other
 
 div#remain-ideal-case.map
     h3= ideal_remain
@@ -92,6 +111,8 @@ div#leave-ideal-case.map
     div.graphic
     
     div.bars
+    
+div.footnote!= ideal_footnote
 
 div#section-3
     h2= section_3_hed

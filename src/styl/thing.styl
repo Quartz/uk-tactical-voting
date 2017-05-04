@@ -6,6 +6,7 @@ $snp = #FFCC00
 $green = #6AB023
 $c = #333399
 $ukip = #70147A
+$other = #777
 $none = #E4E4E4
 
 p.picker
@@ -23,9 +24,10 @@ p.picker
 #lookup
 	.vote
 		font-weight: bold
-		font-size: 24px
+		font-size: 28px
 		font-family: $qz-sans-light
-		margin: 30px 0 0 0
+		margin: 30px 0 10px 0
+		text-align: center
 
 ul#legend
 	padding: 15px 0 0 0
@@ -50,7 +52,7 @@ ul#legend
 			whitespace: nowrap
 			fill: $qz-gray-2
 			font-size: 14px
-			font-family: "AdelleSans-Regular", Helvetica, Arial, sans-serif
+			font-family: $qz-sans
 			float: left;
 
 		&.lab b
@@ -71,10 +73,14 @@ ul#legend
 		&.ukip b
 			background-color: $ukip
 
+		&.other b
+			background-color: $other
+
 		&.none b
 			background-color: $none
 
 .map h3
+	// font-family: $qz-sans-light
 	margin-bottom: 0
 
 .graphic-wrapper
@@ -110,13 +116,18 @@ ul#legend
 	fill: #999
 }
 
+#section-3
+	p
+		font-style: italic
+
 #secret-render
 	display: none;
 
-.footer
+.footnote
 	font-family $qz-sans
 	color $qz-gray-2
 	font-size 14px
+	margin-bottom: 25px
 
 @media only screen and (min-width 601px)
 	.map
