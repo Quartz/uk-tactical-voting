@@ -1,4 +1,5 @@
 library(dplyr)
+library(purrrlyr)
 library(readr)
 library(readxl)
 library(reshape2)
@@ -23,7 +24,7 @@ general.results <- general.results %>%
   # Filter out total row
   filter(!is.na(`Press Association ID Number`)) %>%
   left_join(id.mapping, by.x = `Press Association ID Number`, by.y = PANO) %>%
-  select(`Constituency ID`, `Constituency Name`, `Total number of valid votes counted`, C, DUP, Green, Lab, `Lab Co-op`, LD, PC, SDLP, SF, SNP, UKIP, UUP)
+  select(`Constituency ID`, `Constituency Name`, `Total number of valid votes counted`, C, DUP, Green, Lab, `Lab Co-op`, LD, PC, SDLP, SF, SNP, Speaker, UKIP, UUP)
 
 # Clean up column names
 colnames(general.results) <- c(
@@ -40,6 +41,7 @@ colnames(general.results) <- c(
   "sdlp",
   "sf",
   "snp",
+  "speaker",
   "ukip",
   "uup"
 )
@@ -57,9 +59,10 @@ general.results <- general.results %>%
     sdlp = ifelse(is.na(sdlp), 0, sdlp),
     sf = ifelse(is.na(sf), 0, sf),
     snp = ifelse(is.na(snp), 0, snp),
+    speaker = ifelse(is.na(speaker), 0, speaker),
     ukip = ifelse(is.na(ukip), 0, ukip),
     uup = ifelse(is.na(uup), 0, uup),
-    other = total.votes - (con + dup + green + lab + ld + pc + sdlp + sf + snp + ukip + uup)
+    other = total.votes - (con + dup + green + lab + ld + pc + sdlp + sf + snp + speaker + ukip + uup)
   ) %>%
   select(-lab_coop) %>%
   mutate(
@@ -72,6 +75,7 @@ general.results <- general.results %>%
     sdlp.pct = sdlp / total.votes * 100,
     sf.pct = sf / total.votes * 100,
     snp.pct = snp / total.votes * 100,
+    speaker.pct = speaker / total.votes * 100,
     ukip.pct = ukip / total.votes * 100,
     uup.pct = uup / total.votes * 100,
     other.pct = other / total.votes * 100
@@ -79,9 +83,9 @@ general.results <- general.results %>%
 
 AnalyzePartyVotes <- function(r) {
   parties <- data_frame(
-    party = c("con", "dup", "green", "lab", "ld", "pc", "sdlp", "sf", "snp", "ukip", "uup"),
-    position = c("leave", NA, "remain", "remain", "remain", NA, NA, NA, "remain", "leave", NA),
-    votes = c(r$con.pct, r$dup.pct, r$green.pct, r$lab.pct, r$ld.pct, r$pc.pct, r$sdlp.pct, r$sf.pct, r$snp.pct, r$ukip.pct, r$uup.pct)
+    party = c("con", "dup", "green", "lab", "ld", "pc", "sdlp", "sf", "snp", "speaker", "ukip", "uup"),
+    position = c("leave", NA, "remain", "remain", "remain", NA, NA, NA, "remain", NA, "leave", NA),
+    votes = c(r$con.pct, r$dup.pct, r$green.pct, r$lab.pct, r$ld.pct, r$pc.pct, r$sdlp.pct, r$sf.pct, r$snp.pct, r$speaker.pct, r$ukip.pct, r$uup.pct)
   ) %>% arrange(desc(votes))
   
   # Winner

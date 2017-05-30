@@ -39,6 +39,7 @@ var PARTY_COLORS = {
 	'pc': '#777',
 	'sdlp': '#777',
 	'sf': '#777',
+	'speaker': '#777',
 	'uup': '#777',
 
 	'other': '#777',
@@ -52,8 +53,9 @@ var EXPLAINER_TEMPLATE = _.template('\
 	2016 Brexit \
 	referendum. If you would like to <%= position %> Theresa May’s Brexit, you \
 	should <strong>tactically vote <%= tactical %></strong> in the 2017 \
-	election. Because you are \
-	<strong><%= seat %></strong>, <%= consequence %>.')
+	election, because it is the party that likely shares your views on Brexit \
+	and has the best chance of victory based on the previous election result. \
+	You are <%= seat %>.')
 
 /**
  * Initialize the graphic.
@@ -124,11 +126,9 @@ var onSelectChange = function(d) {
 	};
 
 	if (d['party.status'] == 'Solid remain' || d['party.status'] == 'Solid leave') {
-		templateArgs['seat'] = 'not in a swing seat';
-		templateArgs['consequence'] = 'it is unlikely that your vote can do much to change the outcome of the new election';
+		templateArgs['seat'] = '<strong>not in a swing seat</strong>, though, so it is unlikely that your vote can do much to change the outcome of the upcoming election, given the margin of victory in the previous general election';
 	} else {
-		templateArgs['seat'] = 'in a swing seat';
-		templateArgs['consequence'] = 'your vote could make a difference to the outcome of the new election';
+		templateArgs['seat'] = '<strong>in a swing seat</strong>, with a narrow margin between the top candidates in 2015 and a close vote on Brexit in 2016, so your vote could make an important difference to the outcome of the upcoming election';
 	}
 
 	if (stance == 'leave') {
