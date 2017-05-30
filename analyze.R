@@ -24,12 +24,13 @@ general.results <- general.results %>%
   # Filter out total row
   filter(!is.na(`Press Association ID Number`)) %>%
   left_join(id.mapping, by.x = `Press Association ID Number`, by.y = PANO) %>%
-  select(`Constituency ID`, `Constituency Name`, `Total number of valid votes counted`, C, DUP, Green, Lab, `Lab Co-op`, LD, PC, SDLP, SF, SNP, Speaker, UKIP, UUP)
+  select(`Constituency ID`, `Constituency Name`, `Region`, `Total number of valid votes counted`, C, DUP, Green, Lab, `Lab Co-op`, LD, PC, SDLP, SF, SNP, Speaker, UKIP, UUP)
 
 # Clean up column names
 colnames(general.results) <- c(
   "id",
   "name",
+  "region",
   "total.votes",
   "con",
   "dup",
@@ -115,7 +116,9 @@ AnalyzePartyVotes <- function(r) {
   leave.ideal.case <- winner$party
   remain.ideal.case <- winner$party
   
-  if (leave.top$votes - remain.total$votes > SWING_MARGIN) {
+  if (r$region == "Northern Ireland") {
+    party.status = "Ignore"
+  } else if (leave.top$votes - remain.total$votes > SWING_MARGIN) {
     party.status <- "Solid leave"
   } else if (remain.top$votes - leave.total$votes > SWING_MARGIN) {
     party.status <- "Solid remain"

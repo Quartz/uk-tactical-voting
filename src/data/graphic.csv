@@ -11,9 +11,9 @@ E14000532,Altrincham & Sale West,con,Solid leave,con,lab,con,con,NA,NA,38.587799
 W07000043,Alyn & Deeside,lab,Tactical swing,con,lab,con,lab,NA,NA,58.053368750000004
 E14000533,Amber Valley,con,Tactical swing,con,lab,con,lab,NA,NA,65.29912472
 S14000004,Angus,snp,Solid remain,con,snp,snp,snp,NA,NA,48.2443342
-N06000005,Antrim East,dup,Solid leave,ukip,green,dup,dup,NA,NA,NA
-N06000012,Antrim North,dup,Swing,ukip,green,ukip,green,NA,NA,NA
-N06000014,Antrim South,uup,Swing,con,green,con,green,NA,NA,NA
+N06000005,Antrim East,dup,Ignore,ukip,green,dup,dup,NA,NA,NA
+N06000012,Antrim North,dup,Ignore,ukip,green,dup,dup,NA,NA,NA
+N06000014,Antrim South,uup,Ignore,con,green,uup,uup,NA,NA,NA
 W07000057,Arfon,pc,Solid remain,con,lab,pc,pc,NA,NA,35.845442979999994
 S14000005,Argyll & Bute,snp,Solid remain,con,snp,snp,snp,NA,NA,39.43239691
 E14000534,Arundel & South Downs,con,Solid leave,con,lab,con,con,NA,NA,49.70110581
@@ -43,10 +43,10 @@ E14000552,Bedford,con,Swing,con,lab,con,lab,con,lab,51.94916653
 E14000813,Bedfordshire Mid,con,Solid leave,con,lab,con,con,NA,NA,52.880453630000005
 E14000841,Bedfordshire North East,con,Solid leave,con,lab,con,con,NA,NA,53.437605489999996
 E14000949,Bedfordshire South West,con,Solid leave,con,lab,con,con,NA,NA,58.0834155
-N06000001,Belfast East,dup,Swing,con,green,con,green,NA,NA,NA
-N06000002,Belfast North,dup,Swing,con,green,con,green,NA,NA,NA
-N06000003,Belfast South,sdlp,Swing,ukip,green,ukip,green,NA,NA,NA
-N06000004,Belfast West,sf,Swing,ukip,green,ukip,green,NA,NA,NA
+N06000001,Belfast East,dup,Ignore,con,green,dup,dup,NA,NA,NA
+N06000002,Belfast North,dup,Ignore,con,green,dup,dup,NA,NA,NA
+N06000003,Belfast South,sdlp,Ignore,ukip,green,sdlp,sdlp,NA,NA,NA
+N06000004,Belfast West,sf,Ignore,ukip,green,sf,sf,NA,NA,NA
 E14000553,Bermondsey & Old Southwark,lab,Solid remain,con,lab,lab,lab,NA,NA,26.05032728
 E14000554,Berwick-Upon-Tweed,con,Tactical swing,con,ld,con,ld,NA,NA,55.297815400000005
 S14000008,"Berwickshire, Roxburgh & Selkirk",snp,Swing,con,snp,con,snp,NA,NA,43.25868135
@@ -200,8 +200,8 @@ E14000839,Dorset North,con,Solid leave,con,ld,con,con,NA,NA,56.60860284
 E14000936,Dorset South,con,Solid leave,con,lab,con,con,NA,NA,59.44560911
 E14001031,Dorset West,con,Solid leave,con,ld,con,con,NA,NA,51.0392986
 E14000670,Dover,con,Solid leave,con,lab,con,con,NA,NA,63.00961235
-N06000013,Down North,dup,Swing,con,green,con,green,NA,NA,NA
-N06000015,Down South,sdlp,Solid leave,ukip,green,sdlp,sdlp,NA,NA,NA
+N06000013,Down North,dup,Ignore,con,green,dup,dup,NA,NA,NA
+N06000015,Down South,sdlp,Ignore,ukip,green,sdlp,sdlp,NA,NA,NA
 E14000671,Dudley North,lab,Tactical swing,con,lab,con,lab,NA,NA,71.43022556000001
 E14000672,Dudley South,con,Solid leave,con,lab,con,con,NA,NA,70.41731849
 E14000673,Dulwich & West Norwood,lab,Solid remain,con,lab,lab,lab,NA,NA,22.93742067
@@ -247,13 +247,13 @@ S14000028,Falkirk,snp,Solid remain,con,snp,snp,snp,NA,NA,42.10588228
 E14000699,Fareham,con,Solid leave,con,lab,con,con,NA,NA,55.52010727
 E14000700,Faversham & Kent Mid,con,Solid leave,con,lab,con,con,NA,NA,58.67045504
 E14000701,Feltham & Heston,lab,Solid remain,con,lab,lab,lab,NA,NA,55.932005370000006
-N06000007,Fermanagh & South Tyrone,uup,Swing,con,green,con,green,NA,NA,NA
+N06000007,Fermanagh & South Tyrone,uup,Ignore,con,green,uup,uup,NA,NA,NA
 S14000049,Fife North East,snp,Solid remain,con,snp,snp,snp,NA,NA,36.31478353
 E14000702,Filton & Bradley Stoke,con,Solid leave,con,lab,con,con,NA,NA,48.77303387
 E14000703,Finchley & Golders Green,con,Solid leave,con,lab,con,con,NA,NA,31.10078691
 E14000704,Folkestone & Hythe,con,Solid leave,con,lab,con,con,NA,NA,61.64041021
 E14000705,Forest Of Dean,con,Solid leave,con,lab,con,con,NA,NA,57.88889683
-N06000008,Foyle,sdlp,Swing,ukip,green,ukip,green,NA,NA,NA
+N06000008,Foyle,sdlp,Ignore,ukip,green,sdlp,sdlp,NA,NA,NA
 E14000706,Fylde,con,Solid leave,con,lab,con,con,NA,NA,56.728642969999996
 E14000707,Gainsborough,con,Solid leave,con,lab,con,con,NA,NA,61.95582416999999
 E14000708,Garston & Halewood,lab,Solid remain,con,lab,lab,lab,NA,NA,47.96281365
@@ -345,7 +345,7 @@ E14000770,Kingston & Surbiton,con,Swing,con,ld,con,ld,NA,NA,40.8444531
 E14000774,Kingswood,con,Solid leave,con,lab,con,con,NA,NA,57.1216387
 S14000041,Kirkcaldy & Cowdenbeath,snp,Solid remain,con,snp,snp,snp,NA,NA,43.26145395
 E14000775,Knowsley,lab,Solid remain,ukip,lab,lab,lab,NA,NA,52.34216074
-N06000009,Lagan Valley,dup,Solid leave,ukip,green,dup,dup,NA,NA,NA
+N06000009,Lagan Valley,dup,Ignore,ukip,green,dup,dup,NA,NA,NA
 S14000042,Lanark & Hamilton East,snp,Solid remain,con,snp,snp,snp,NA,NA,35.95620573
 E14001033,Lancashire West,lab,Tactical swing,con,lab,con,lab,con,lab,54.950812920000004
 E14000776,Lancaster & Fleetwood,lab,Swing,con,lab,con,lab,con,lab,51.98908416
@@ -374,7 +374,7 @@ E14000795,Liverpool Wavertree,lab,Solid remain,con,lab,lab,lab,NA,NA,35.26162544
 E14000796,Liverpool West Derby,lab,Solid remain,ukip,lab,lab,lab,NA,NA,49.820719759999996
 S14000044,Livingston,snp,Solid remain,con,snp,snp,snp,NA,NA,43.26090286
 W07000045,Llanelli,lab,Solid remain,ukip,lab,lab,lab,NA,NA,56.674596720000004
-N06000006,Londonderry East,dup,Swing,con,green,con,green,NA,NA,NA
+N06000006,Londonderry East,dup,Ignore,con,green,dup,dup,NA,NA,NA
 E14000797,Loughborough,con,Solid leave,con,lab,con,con,NA,NA,50.09042072
 E14000798,Louth & Horncastle,con,Solid leave,con,lab,con,con,NA,NA,68.89943000999999
 E14000799,Ludlow,con,Solid leave,con,ld,con,con,NA,NA,57.88401838
@@ -417,7 +417,7 @@ E14000832,Newcastle Upon Tyne East,lab,Solid remain,con,lab,lab,lab,NA,NA,41.071
 E14000833,Newcastle Upon Tyne North,lab,Solid remain,con,lab,lab,lab,NA,NA,56.8289241
 W07000055,Newport East,lab,Tactical swing,con,lab,con,lab,NA,NA,59.3309312
 W07000056,Newport West,lab,Tactical swing,con,lab,con,lab,con,lab,53.65707981
-N06000011,Newry & Armagh,sf,Swing,con,green,con,green,NA,NA,NA
+N06000011,Newry & Armagh,sf,Ignore,con,green,sf,sf,NA,NA,NA
 E14000835,Newton Abbot,con,Solid leave,con,ld,con,con,NA,NA,56.01337034
 E14000816,Norfolk Mid,con,Solid leave,con,lab,con,con,NA,NA,60.59812834
 E14000848,Norfolk North,ld,Tactical swing,con,ld,con,ld,NA,NA,58.400286720000004
@@ -540,7 +540,7 @@ E14000973,Stoke-On-Trent North,lab,Tactical swing,con,lab,con,lab,NA,NA,72.12358
 E14000974,Stoke-On-Trent South,lab,Tactical swing,con,lab,con,lab,NA,NA,71.10740622
 E14000975,Stone,con,Solid leave,con,lab,con,con,NA,NA,57.53522217
 E14000976,Stourbridge,con,Solid leave,con,lab,con,con,NA,NA,63.663983280000004
-N06000016,Strangford,dup,Solid leave,ukip,green,dup,dup,NA,NA,NA
+N06000016,Strangford,dup,Ignore,ukip,green,dup,dup,NA,NA,NA
 E14000977,Stratford-On-Avon,con,Solid leave,con,lab,con,con,NA,NA,51.00166754999999
 E14000978,Streatham,lab,Solid remain,con,lab,lab,lab,NA,NA,20.53967406
 E14000979,Stretford & Urmston,lab,Solid remain,con,lab,lab,lab,NA,NA,48.905485459999994
@@ -582,9 +582,9 @@ E14001004,Tunbridge Wells,con,Solid leave,con,lab,con,con,NA,NA,44.6463371900000
 E14001005,Twickenham,con,Swing,con,ld,con,ld,NA,NA,33.31585769
 E14001006,Tynemouth,lab,Tactical swing,con,lab,con,lab,con,lab,47.637004090000005
 E14000853,Tyneside North,lab,Solid remain,con,lab,lab,lab,NA,NA,59.52071882
-N06000018,Tyrone West,sf,Swing,con,green,con,green,NA,NA,NA
-N06000010,Ulster Mid,sf,Swing,ukip,green,ukip,green,NA,NA,NA
-N06000017,Upper Bann,dup,Swing,con,green,con,green,NA,NA,NA
+N06000018,Tyrone West,sf,Ignore,con,green,sf,sf,NA,NA,NA
+N06000010,Ulster Mid,sf,Ignore,ukip,green,sf,sf,NA,NA,NA
+N06000017,Upper Bann,dup,Ignore,con,green,dup,dup,NA,NA,NA
 E14001007,Uxbridge & Ruislip South,con,Solid leave,con,lab,con,con,NA,NA,57.1873736
 W07000060,Vale Of Clwyd,con,Swing,con,lab,con,lab,NA,NA,56.55908168
 W07000078,Vale Of Glamorgan,con,Solid leave,con,lab,con,con,NA,NA,52.55067009

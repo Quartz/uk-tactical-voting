@@ -83,10 +83,13 @@ function populateSelects(data) {
 	var stanceSelect = d3.select('#stance');
 	var constituencySelect = d3.select('#constituency');
 
+	var constituencies = _.filter(data, function(d) {
+		return d['party.status'] != 'Ignore';
+	});
+
 	constituencySelect.selectAll('option')
-		.data(data)
-		.enter()
-			.append('option')
+		.data(constituencies)
+		.enter().append('option')
 			.attr('value', function(d) { return d['slug']; })
 			.text(function(d) { return d['name'] });
 
