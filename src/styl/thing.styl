@@ -88,9 +88,15 @@ ul#legend
 		&.none b
 			background-color: $none
 
-.map h3
-	// font-family: $qz-sans-light
-	margin-bottom: 0
+.map
+	&:after
+		content: ""
+		display: table
+		clear: both
+
+	h3
+		// font-family: $qz-sans-light
+		margin-bottom: 0
 
 .graphic-wrapper
 	position: relative
