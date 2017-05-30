@@ -1,3 +1,3 @@
 # uk-tactical-voting
 
-Map of UK tactical votes in 2017 general eelection
+Analysis of tactical voting options for UK citizens in the 2017 snap general election.

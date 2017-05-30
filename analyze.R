@@ -65,7 +65,9 @@ general.results <- general.results %>%
     uup = ifelse(is.na(uup), 0, uup),
     other = total.votes - (con + dup + green + lab + ld + pc + sdlp + sf + snp + speaker + ukip + uup)
   ) %>%
+  # Drop alternate labour group
   select(-lab_coop) %>%
+  # Compute vote shares
   mutate(
     con.pct = con / total.votes * 100,
     dup.pct = dup / total.votes * 100,
@@ -82,51 +84,67 @@ general.results <- general.results %>%
     other.pct = other / total.votes * 100
   )
 
+#' Analyze a single constituency's general election results
+#'
+#' @param r A row from the results table.
+#'
+#' @return A data.frame of computed columns to add to the row.
 AnalyzePartyVotes <- function(r) {
+  # Build party results table
   parties <- data_frame(
     party = c("con", "dup", "green", "lab", "ld", "pc", "sdlp", "sf", "snp", "speaker", "ukip", "uup"),
     position = c("leave", NA, "remain", "remain", "remain", NA, NA, NA, "remain", NA, "leave", NA),
     votes = c(r$con.pct, r$dup.pct, r$green.pct, r$lab.pct, r$ld.pct, r$pc.pct, r$sdlp.pct, r$sf.pct, r$snp.pct, r$speaker.pct, r$ukip.pct, r$uup.pct)
   ) %>% arrange(desc(votes))
   
-  # Winner
+  # Find winner of general election
   winner <- parties %>%
     slice(1)
   
-  # Leave
+  # Filter to leave parties
   leave.parties <- parties %>%
     filter(position == "leave")
   
+  # Find top vote-getting leave party
   leave.top <- leave.parties %>%
     slice(1)
   
+  # Calculate the total number of votes won by all leave parties
   leave.total <- leave.parties %>%
     summarise(votes = sum(votes))
   
-  # Remain
+  # Filter to remain parties
   parties.remain <- parties %>%
     filter(position == "remain")
   
+  # Find top vote-getting remain party
   remain.top <- parties.remain %>%
     slice(1)
   
+  # Calculate the total number of votes won by all remain parties
   remain.total <- parties.remain %>%
     summarise(votes = sum(votes))
   
+  # By default, the ideal case is to stick with the previous winner
   leave.ideal.case <- winner$party
   remain.ideal.case <- winner$party
   
+  # Exclude Northern Ireland because its crazy
   if (r$region == "Northern Ireland") {
     party.status = "Ignore"
+  # Leave exceeds remain by larger than the swing margin
   } else if (leave.top$votes - remain.total$votes > SWING_MARGIN) {
     party.status <- "Solid leave"
+  # Remain exceeds leave by larger than the swing margin
   } else if (remain.top$votes - leave.total$votes > SWING_MARGIN) {
     party.status <- "Solid remain"
+  # Top parties are within the swing margin without any tactical votes
   } else if (abs(leave.top$votes - remain.top$votes) < SWING_MARGIN) {
     party.status <- "Swing"
     
     leave.ideal.case <- leave.top$party
     remain.ideal.case <- remain.top$party
+  # Top parties are within the swing margin with tactical votes
   } else {
     party.status <- "Tactical swing"
     
@@ -134,6 +152,7 @@ AnalyzePartyVotes <- function(r) {
     remain.ideal.case <- remain.top$party
   }
   
+  # These columns will be added to the original row
   data_frame(
     winner.party = winner$party,
     winner.position = winner$position,
@@ -149,9 +168,10 @@ AnalyzePartyVotes <- function(r) {
   )
 }
 
-# Derive data from party vote totals
+# Analyze general election results to find swing votes
 general.results <- general.results %>%
   by_row(AnalyzePartyVotes, .collate = "cols") %>%
+  # Trim unnecessary column suffixes rom added columns
   setNames(gsub("1", "", names(.)))
 
 # Load brexit vote results
@@ -166,14 +186,18 @@ brexit.results <- read_csv(
   skip = 1
 )
 
-# Flag results that are known exactly
+# Flag results that are known exactly (from BBC data)
 brexit.results$leave.16.exact <- !is.na(brexit.results$leave.16.exact)
 
-# Adjust percents for consistency
+# Adjust to whole-number percents for consistency
 brexit.results$leave.16 <- brexit.results$leave.16 * 100
 
-# Find possible Brexit swing votes
-BrexitSwingStatus <- function(leave, swing) {
+#' Determine if a possible leave percentage is within the swing threshold.
+#'
+#' @param leave Percent that voted to leave.
+#'
+#' @return A text description of the swing status.
+BrexitSwingStatus <- function(leave) {
   if (is.na(leave)) {
     return(NA)
   } else if (leave < 50 - SWING_MARGIN) {
@@ -185,16 +209,24 @@ BrexitSwingStatus <- function(leave, swing) {
   }
 }
 
+# Compute Brexist swing status for all constituencies
 brexit.results <- brexit.results %>%
   rowwise() %>%
   mutate(
     brexit.status = BrexitSwingStatus(leave.16)
   )
 
-# Merge results
+# Merge general election and brexit referendum results
 merged.results <- general.results %>%
   left_join(brexit.results, by = "id")
 
+#' Determine what, if anything, tactical votes should do in a given situation.
+#'
+#' @param brexit.status Text swing status of the referendum vote
+#' @param party.status Text swing status of the general vote
+#' @param tactical Best-case tactical vote
+#'
+#' @return The best-case tactical vote or NA if there is no practical vote
 PracticalCase <- function(brexit.status, party.status, tactical) {
   if (is.na(brexit.status)) {
     return(NA)
@@ -209,6 +241,7 @@ PracticalCase <- function(brexit.status, party.status, tactical) {
   NA
 }
 
+# Add practical votes to merged results
 merged.results <- merged.results %>%
   rowwise() %>%
   mutate(
@@ -216,6 +249,7 @@ merged.results <- merged.results %>%
     remain.practical.case = PracticalCase(brexit.status, party.status, remain.top.party)
   )
 
+# Write all results to CSV for review
 write_csv(merged.results, "merged.results.csv")
 
 # graphic <- merged.results
@@ -229,4 +263,5 @@ graphic <- merged.results %>%
     leave.16
   )
 
+# Write simplified CSV for charting/mapping
 write_csv(graphic, "src/data/graphic.csv")

@@ -4,3 +4,5 @@ build
 .DS_Store
 .tmp
 .Rproj.user
+.Rdata
+.Rhistory
