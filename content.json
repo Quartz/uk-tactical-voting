@@ -1,9 +1,9 @@
 {
-    "lookup_hed": "How to cast a tactical vote",
-    "constituency_label": "<strong>Where do you vote?</strong> (Don’t know? <a href=\"http://www.bbc.com/news/politics/constituencies\">Look here</a>.)",
+    "lookup_hed": "How to cast a tactical vote about Brexit",
+    "constituency_label": "<strong>Where do you vote?</strong> (Don’t know? <a href=\"http://www.bbc.co.uk/news/politics/constituencies\">Look here</a>.)",
     "stance_label": "<strong>Do you support Theresa May’s plans for Brexit?</strong>",
     "stance_leave": "Yes! Brexit means Brexit.",
-    "stance_remain": "No! Brits deserve a better deal.",
+    "stance_remain": "No! A “hard” Brexit is a bad Brexit.",
     "lab": "Labour",
     "ld": "Liberal Democrats",
     "snp": "Scottish National Party",
@@ -12,37 +12,35 @@
     "ukip": "UK Independence Party",
     "other": "Other",
     "none": "Non-competitive",
-    "practical_hed": "Seats where tactical voting can realistically make a difference",
+    "practical_hed": "What if people voted tactically where the Brexit vote was close?",
     "practical_remain": "Those opposing May’s Brexit",
     "practical_leave": "Those supporting May’s Brexit",
     "practical_footnote": "Data: The <a href=\"http://www.electoralcommission.org.uk/our-work/our-research/electoral-data\">UK Electoral Commission</a>, the <a href=\"http://www.bbc.com/news/uk-politics-38762034\">BBC</a>, <a href=\"https://docs.google.com/spreadsheets/d/1b71SDKPFbk-ktmUTXmDpUP5PT299qq24orEA0_TOpmw/edit?usp=sharing\">Chris Hanretty</a> (University of East Anglia), Quartz analysis",
-    "ideal_hed": "Hypothetical best cases for tactical voters",
+    "ideal_hed": "What if people voted tactically everywhere?",
     "ideal_remain": "Those opposing May’s Brexit",
     "ideal_leave": "Those supporting May’s Brexit",
     "ideal_footnote": "Data: The <a href=\"http://www.electoralcommission.org.uk/our-work/our-research/electoral-data\">UK Electoral Commission</a>, Quartz analysis",
-    "section_1_hed": "Why does tactical voting matter?",
-    "section_2_hed": "What difference would it make?",
+    "section_1_hed": "What’s this all about?",
+    "section_2_hed": "REMOVED",
     "section_3_hed": "Methodology",
     "section_1": [
-        "It is a time of political upheaval in much of the world. But none more so than in the UK, which is going for a second general election in just over two years.",
-        "The UK surprised the world by voting to leave the EU in June last year. Soon after that Theresa May took over the prime ministership from her predecessor David Cameron. According to the rules, she could’ve continued to govern the country until 2020, but she has taken a gamble by calling for a general election. That’s because the <a href=\"https://www.theguardian.com/science/2017/apr/27/lib-dems-shouldnt-count-on-remain-votes-the-data-looks-bleak\">latest polls</a> suggest that, on June 8, Brits would vote to give her Conservative party an even bigger majority than it has currently.",
-        "Typically campaigns for general elections start many years in advance. Instead, this time May’s “snap” election gives the country’s many political parties only weeks to organise, campaign, and sway voters. What perhaps makes life easier for them is that the election is, in effect, about only one thing: <a href=\"https://qz.com/on/brexit/\">Brexit</a>.",
-        "The upshot is that voters really have only one of two choices. Give May’s right-leaning party a bigger majority to ensure Brexit happens on <a href=\"https://qz.com/943292/brexit-begins-the-uk-now-has-two-years-to-untangle-itself-from-the-european-union/\">her terms</a>. Or vote for the left-leaning opposition parties, who may be fractured in what they are promising, but at least they all oppose giving May a <a href=\"https://www.bloomberg.com/politics/articles/2017-04-23/blair-warns-against-brexit-blank-check-for-may-in-u-k-vote\">blank check</a>.",
-        "Current polls suggest a surge in the Conservative vote since the 2015 general election. And, yet, whether you are for May’s Brexit or against, tactical voting could significantly change the outcome of the election. Quartz’s analysis below shows which seats could realistically make the difference."
+        "Britain is preparing for its second general election in two years, on top of the momentous referendum on EU membership held in between.",
+        "Soon after the UK narrowly voted to leave the EU in June last year, Theresa May was nominated by her party to take over as prime minister from David Cameron, who campaigned against Brexit and quit when the vote went against him. According to the rules at the time, May could have continued to govern without a public vote until 2020. Instead, she unexpectedly called a “snap” election for June 8.",
+        "By her reasoning, the vote is necessary to give her a mandate to steer Brexit negotiations with the EU, which are scheduled to run through 2019, not long before the regularly scheduled election date. “Getting Brexit right” is the thing “upon which everything else we care about will depend,” May said this week.",
+        "Although <a href=\"https://britainelects.com/\">the polls have tightened</a> in recent weeks, May’s Conservatives remain on course to expand their majority in parliament—the party currently holds 330 seats in the 650-member chamber. The government that takes over after the vote can run things until 2022, years after Britain’s scheduled separation from the EU.",
+        "The snap election gives political parties only weeks to organize, campaign, and try to sway voters with <a href=\"http://www.bbc.co.uk/news/election-2017-39955886\">pre-vote manifestos</a>. Campaigning also took a more sober turn following the <a href=\"http://www.bbc.co.uk/news/uk-england-manchester-40008389\">Manchester terror attack</a>, with security policies more prominent when the candidates resumed canvassing.",
+        "The biggest issue, however, is <a href=\"http://whatukthinks.org/eu/has-labours-rise-anything-to-do-with-brexit/\">Brexit</a>. To simplify greatly, voters have two choices: give May’s Conservatives a bigger majority, ensuring Brexit happens on <a href=\"http://www.cer.org.uk/insights/prime-minister-unshackled\">her terms</a>; or vote for one of the left-leaning opposition parties (predominantly Labour and the Liberal Democrats, or the Scottish National Party in Scotland), which have different visions for Brexit but all oppose giving May a <a href=\"https://www.bloomberg.com/politics/articles/2017-04-23/blair-warns-against-brexit-blank-check-for-may-in-u-k-vote\">free hand</a> to determine the course of Britain’s divorce from the EU.",
+        "At the extremes, a <a href=\"https://twitter.com/peter_tl/status/862308841400283137/photo/1\">“hard” Brexit</a>, favored by the right, would practically sever all ties from the EU. A “soft” Brexit, meanwhile, would preserve some of the UK’s previous arrangements with the EU, on free trade, immigration, and the like.",
+        "Complicating matters is that some Conservatives are pushing <a href=\"https://www.theguardian.com/politics/2017/may/20/damian-green-remain-voters-should-back-theresa-may\">a soft line on Brexit</a>, while some Labour candidates are taking <a href=\"http://www.independent.co.uk/voices/hard-brexit-general-election-2017-no-deal-lib-dems-greens-article-50-a7756761.html\">a much tougher stance</a>. However, the Conservative candidates running for seats that the party thinks it can swing <a href=\"https://www.bloomberg.com/politics/articles/2017-05-15/how-theresa-may-is-recruiting-an-army-of-hard-brexit-backers\">mostly come from a more hardline Brexit camp</a>, a statement of intent from May’s party.",
+        "This is where tactical voting could make a difference. Quartz has identified XX seats in close contention in which voters acting as a bloc according to their feelings about Brexit could swing the result one way or the other (see methodology below). All else equal, if May lost these seats to rival parties she would lose her majority. A recent narrowing in opinion polls suggests this is not as unlikely as it seemed only a few weeks ago."
     ],
     "section_2": [
-        "In making the calculation, we’ve overlaid data from the 2015 general elections and  the 2016 Brexit referendum. The realistic chances are determined by whether a particular seat has enough of a chance to swing from “leave” to “remain” (or vice-versa) and whether that swing could enable a large enough voter base to cast a tactical vote.",
-        "Of course, the left-leaning parties—Labour, Liberal Democrats, Scottish Nationalist Party, and Green—have differences among them on what they think about Brexit. But tactical voting could work because they are unified in their opposition to Theresa May’s Brexit.",
-        "On the opposite site, May has the upper hand of gaining from a large proportion of UK Independence Party voters. Those who chose the far-right party in 2015 did so mainly to leave the EU, but since the referendum the party has lost steam and it could mean the voters would tactically vote for May.",
-        "There is a chance for a greater swing. Such a hypothetical best-case scenario would make a much larger difference to the outcome of the election, as can be seen in the maps below."
+        "These calculations combine data from the 2015 general elections and the 2016 Brexit referendum. First, we use official tallies of the <a href=\"http://www.electoralcommission.org.uk/our-work/our-research/electoral-data\">2015 general election results</a> to understand the balance of power between the parties. Second, we use official tallies of the Brexit referendum <a href=\"http://www.bbc.com/news/uk-politics-38762034\">gathered by the BBC</a> from the small number of constituencies that publish them. Third, for those seats that didn’t publish official referendum tallies, we use estimates produced by <a href=\"https://docs.google.com/spreadsheets/d/1b71SDKPFbk-ktmUTXmDpUP5PT299qq24orEA0_TOpmw/edit?usp=sharing\">Chris Hanretty</a> of the University of East Anglia.",
+        "Seats are considered susceptible to tactical voting if the ranks of pro- or anti-Brexit voters are realistically big enough to overcome the margin of victory for the winning MP in the previous general election.",
+        "More specifically, we identify a swing seat as any constituency where the previous margin of victory was less than 5% in the 2015 general election and the 2016 Brexit referendum saw voters split by no more than 5% on the issue. This is a plausible but arbitrary threshold, and it’s possible the real votes will swing by more or less because of Brexit or other reasons.",
+        "If all the races decided by 5% or less in the previous general election swung to the first- or second-place candidate, it would make a much larger difference to the outcome of the election, as illustrated in the maps below. Quartz has identified XX seats that could theoretically swing this way in the 2017 election. These are extremely unlikely scenarios, to be sure, but help us understand the range of possible outcomes."
     ],
     "section_3": [
-        "Data used in this story comes from three sources. First, we use official tallies of the <a href=\"http://www.electoralcommission.org.uk/our-work/our-research/electoral-data\">2015 general election results</a> to understand the balance of power between the parties. Second, we use official tallies of the Brexit referendum <a href=\"http://www.bbc.com/news/uk-politics-38762034\">gathered by the BBC</a> from the small number of constituencies that publish them. Third, for those seats that didn’t publish official referendum tallies, we use estimates produced by <a href=\"https://docs.google.com/spreadsheets/d/1b71SDKPFbk-ktmUTXmDpUP5PT299qq24orEA0_TOpmw/edit?usp=sharing\">Chris Hanretty</a> of the University of East Anglia.",
-        "We identify as a swing seat any constituency where tactical voting could bring the margin between voters on different sides of the leave/remain issue to less than 5%. This is an arbitrary threshold and it’s entirely possible the real votes will swing by much more or much less.",
-        "When projecting “ideal” outcomes we assume that every voter on just one side of the Brexit divide will engage in tactical voting. That, of course, is extremely unlikely, but it helps us understand the range of possible outcomes for the 2017 election. We do not account for the case where voters on one side might engage in <em>reverse tactical voting</em>, intentionally splitting their vote to undermine their party’s position on Brexit.",
-        "Similarly, when looking at Brexit referendum results, we’ve assumed that a “swing seat” is any place where the gap between leave and remain voters was at most 5%.",
-        "Parties included in the “other” category are the Democratic Unionist Party, Plaid Cymru, the Social Democratic and Labor Party, Sinn Fein, and the Ulster Unionist Party.",
-        "None of the data described here should be construed as a prediction of future election results.",
-        ""
+        "Voters make decisions based on a range of issues and personal preferences, and none of the numbers described here should be construed as a prediction of the election result. Forecasting is particularly fraught this year, given the unique nature of the vote, the first snap election in Britain since 1974, and the momentous decisions that the next government will make, refashioning the UK’s economic and geopolitical relationships for generations."
     ]
 }

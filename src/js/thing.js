@@ -19,21 +19,11 @@ var leaveIdealWinners = null;
 
 var PARTY_NAMES = {
 	'lab': 'Labour',
-	'snp': 'Scottish National',
+	'snp': 'SNP',
 	'ld': 'Liberal Democrats',
 	'green': 'Green',
 	'con': 'Conservative',
 	'ukip': 'UKIP',
-	'other': 'Other'
-}
-
-var INLINE_PARTY_NAMES = {
-	'lab': 'Labour',
-	'snp': 'the Scottish National Party',
-	'ld': 'the Liberal Democrats',
-	'green': 'the Green Party',
-	'con': 'the Conservative Party',
-	'ukip': 'the UK Independence Party',
 	'other': 'Other'
 }
 
