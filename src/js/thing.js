@@ -64,11 +64,11 @@ function init() {
 	request.csv('data/graphic.csv', function(error, data) {
 		formatData(data);
 
-		remainPracticalWinners = countPracticalWinners('remain.practical.case');
-		leavePracticalWinners = countPracticalWinners('leave.practical.case');
+		remainPracticalWinners = countWinners('remain.practical.case');
+		leavePracticalWinners = countWinners('leave.practical.case');
 
-		remainIdealWinners = countIdealWinners('remain.ideal.case');
-		leaveIdealWinners = countIdealWinners('leave.ideal.case');
+		remainIdealWinners = countWinners('remain.ideal.case');
+		leaveIdealWinners = countWinners('leave.ideal.case');
 
 		populateSelects(data);
 
@@ -190,7 +190,7 @@ function formatData(data) {
 	});
 }
 
-function countIdealWinners(series) {
+function countWinners(series) {
 	var result = {
 		'lab': 0,
 		'snp': 0,
@@ -201,44 +201,18 @@ function countIdealWinners(series) {
 		'other': 0
 	}
 
-	_.each(graphicData, function(d) {
-		var party = d[series];
-
-		if (!_.has(result, party)) {
-			party = 'other';
-		}
-
-		result[party] += 1;
-	})
-
-	formatted = [];
-
-	_.each(result, function(v, k) {
-		formatted.push({
-			'label': k,
-			'amt': v
-		})
-	});
-
-	return _.reverse(_.sortBy(formatted, 'amt'));
-}
-
-function countPracticalWinners(series) {
-	var result = {
-		'lab': 0,
-		'snp': 0,
-		'ld': 0,
-		'green': 0,
-		'con': 0,
-		'ukip': 0,
-		'other': 0
-	}
+	var change = _.clone(result);
 
 	_.each(graphicData, function(d) {
 		var party = d[series];
+		var plusParty = null;
+		var minusParty = null;
 
 		if (party == 'NA') {
 			party = d['winner.party'];
+		} else {
+			plusParty = party;
+			minusParty = d['winner.party'];
 		}
 
 		if (!_.has(result, party)) {
@@ -246,6 +220,19 @@ function countPracticalWinners(series) {
 		}
 
 		result[party] += 1;
+
+		if (plusParty) {
+			if (!_.has(result, plusParty)) {
+				plusParty = 'other';
+			}
+
+			if (!_.has(result, minusParty)) {
+				minusParty = 'other';
+			}
+
+			change[plusParty] += 1;
+			change[minusParty] -= 1;
+		}
 	})
 
 	formatted = [];
@@ -253,7 +240,8 @@ function countPracticalWinners(series) {
 	_.each(result, function(v, k) {
 		formatted.push({
 			'label': k,
-			'amt': v
+			'amt': v,
+			'change': change[k]
 		})
 	});
 
@@ -405,149 +393,167 @@ function copyAndStyleGraphic(config) {
  * Render a bar chart.
  */
 var renderBarChart = function(config) {
-    /*
-     * Setup
-     */
-    var labelColumn = 'label';
-    var valueColumn = 'amt';
+	/*
+	 * Setup
+	 */
+	var labelColumn = 'label';
+	var valueColumn = 'amt';
 
-    var barHeight = 18;
-    var barGap = 9;
-    var labelWidth = 165;
-    var labelMargin = 6;
-    var valueGap = 6;
+	var barHeight = 18;
+	var barGap = 9;
+	var labelWidth = 120;
+	var labelMargin = 6;
+	var valueGap = 6;
 
-    var margins = {
-        top: 0,
-        right: 45,
-        bottom: 30,
-        left: (labelWidth + labelMargin)
-    };
+	var margins = {
+		top: 0,
+		right: 100,
+		bottom: 30,
+		left: (labelWidth + labelMargin)
+	};
 
-    var ticksX = 4;
-    var roundTicksFactor = 5;
+	var ticksX = 4;
+	var roundTicksFactor = 5;
 
-    // Calculate actual chart dimensions
-    var chartWidth = config['width'] - margins['left'] - margins['right'];
-    var chartHeight = ((barHeight + barGap) * config['data'].length);
+	// Calculate actual chart dimensions
+	var chartWidth = config['width'] - margins['left'] - margins['right'];
+	var chartHeight = ((barHeight + barGap) * config['data'].length);
 
-    // Clear existing graphic (for redraw)
-    var containerElement = d3.select(config['container']);
-    containerElement.html('');
+	// Clear existing graphic (for redraw)
+	var containerElement = d3.select(config['container']);
+	containerElement.html('');
 
-    /*
-     * Create the root SVG element.
-     */
-    var chartWrapper = containerElement.append('div')
-        .attr('class', 'graphic-wrapper');
+	/*
+	 * Create the root SVG element.
+	 */
+	var chartWrapper = containerElement.append('div')
+		.attr('class', 'graphic-wrapper');
 
-    var chartElement = chartWrapper.append('svg')
-        .attr('width', chartWidth + margins['left'] + margins['right'])
-        .attr('height', chartHeight + margins['top'] + margins['bottom'])
-        .append('g')
-        .attr('transform', 'translate(' + margins['left'] + ',' + margins['top'] + ')');
+	var chartElement = chartWrapper.append('svg')
+		.attr('width', chartWidth + margins['left'] + margins['right'])
+		.attr('height', chartHeight + margins['top'] + margins['bottom'])
+		.append('g')
+		.attr('transform', 'translate(' + margins['left'] + ',' + margins['top'] + ')');
 
-    /*
-     * Create D3 scale objects.
-     */
-    var min = d3.min(config['data'], function(d) {
-        return Math.floor(d[valueColumn] / roundTicksFactor) * roundTicksFactor;
-    });
+	/*
+	 * Create D3 scale objects.
+	 */
+	var min = d3.min(config['data'], function(d) {
+		return Math.floor(d[valueColumn] / roundTicksFactor) * roundTicksFactor;
+	});
 
-    if (min > 0) {
-        min = 0;
-    }
+	if (min > 0) {
+		min = 0;
+	}
 
-    var max = d3.max(config['data'], function(d) {
-        return Math.ceil(d[valueColumn] / roundTicksFactor) * roundTicksFactor;
-    })
+	var max = d3.max(config['data'], function(d) {
+		return Math.ceil(d[valueColumn] / roundTicksFactor) * roundTicksFactor;
+	})
 
-    var xScale = d3.scale.linear()
-        .domain([min, max])
-        .range([0, chartWidth]);
+	var xScale = d3.scale.linear()
+		.domain([min, max])
+		.range([0, chartWidth]);
 
-    /*
-     * Render bars to chart.
-     */
-    chartElement.append('g')
-        .attr('class', 'bars')
-        .selectAll('rect')
-        .data(config['data'])
-        .enter()
-        .append('rect')
-            .attr('x', function(d) {
-                if (d[valueColumn] >= 0) {
-                    return xScale(0);
-                }
+	/*
+	 * Render bars to chart.
+	 */
+	chartElement.append('g')
+		.attr('class', 'bars')
+		.selectAll('rect')
+		.data(config['data'])
+		.enter()
+		.append('rect')
+			.attr('x', function(d) {
+				if (d[valueColumn] >= 0) {
+					return xScale(0);
+				}
 
-                return xScale(d[valueColumn]);
-            })
-            .attr('width', function(d) {
-                return Math.abs(xScale(0) - xScale(d[valueColumn]));
-            })
-            .attr('y', function(d, i) {
-                return i * (barHeight + barGap);
-            })
-            .attr('height', barHeight)
-            .attr('class', function(d, i) {
-                return 'bar-' + i + ' ' + utils.classify(d[labelColumn]);
-            })
+				return xScale(d[valueColumn]);
+			})
+			.attr('width', function(d) {
+				return Math.abs(xScale(0) - xScale(d[valueColumn]));
+			})
+			.attr('y', function(d, i) {
+				return i * (barHeight + barGap);
+			})
+			.attr('height', barHeight)
+			.attr('class', function(d, i) {
+				return 'bar-' + i + ' ' + utils.classify(d[labelColumn]);
+			})
 			.attr('fill', function(d) {
 				return PARTY_COLORS[d['label']];
 			})
 
-    /*
-     * Render bar labels.
-     */
-    chartWrapper.append('ul')
-        .attr('class', 'labels')
-        .attr('style', utils.formatStyle({
-            'width': labelWidth + 'px',
-            'top': (margins['top'] - 7) + 'px',
-            'left': '0'
-        }))
-        .selectAll('li')
-        .data(config['data'])
-        .enter()
-        .append('li')
-            .attr('style', function(d, i) {
-                return utils.formatStyle({
-                    'width': labelWidth + 'px',
-                    'height': barHeight + 'px',
-                    'left': '0px',
-                    'top': (i * (barHeight + barGap)) + 'px;'
-                });
-            })
-            .attr('class', function(d) {
-                return utils.classify(d[labelColumn]);
-            })
-            .append('span')
-                .text(function(d) {
-                    return PARTY_NAMES[d[labelColumn]];
-                });
+	/*
+	 * Render bar labels.
+	 */
+	chartWrapper.append('ul')
+		.attr('class', 'labels')
+		.attr('style', utils.formatStyle({
+			'width': labelWidth + 'px',
+			'top': (margins['top'] - 7) + 'px',
+			'left': '0'
+		}))
+		.selectAll('li')
+		.data(config['data'])
+		.enter()
+		.append('li')
+			.attr('style', function(d, i) {
+				return utils.formatStyle({
+					'width': labelWidth + 'px',
+					'height': barHeight + 'px',
+					'left': '0px',
+					'top': (i * (barHeight + barGap)) + 'px;'
+				});
+			})
+			.attr('class', function(d) {
+				return utils.classify(d[labelColumn]);
+			})
+			.append('span')
+				.text(function(d) {
+					if (d[labelColumn] == 'ld') {
+						return 'Lib Dems';
+					}
 
-    /*
-     * Render bar values.
-     */
-    chartElement.append('g')
-        .attr('class', 'value')
-        .selectAll('text')
-        .data(config['data'])
-        .enter()
-        .append('text')
-            .text(function(d) {
-                return d[valueColumn];
-            })
-            .attr('x', function(d) {
-                return xScale(d[valueColumn]);
-            })
-            .attr('y', function(d, i) {
-                return i * (barHeight + barGap);
-            })
-            .attr('dx', function(d) {
-                return valueGap;
-            })
-            .attr('dy', (barHeight / 2) + 6)
+					return PARTY_NAMES[d[labelColumn]];
+				});
+
+	/*
+	 * Render bar values.
+	 */
+	chartElement.append('g')
+		.attr('class', 'value')
+		.selectAll('text')
+		.data(config['data'])
+		.enter()
+		.append('text')
+			.text(function(d) {
+				var v = d[valueColumn];
+
+				if (d['change']) {
+					v += ' (';
+
+					if (d['change'] > 0) {
+						v += '+';
+					}
+
+					v += d['change'];
+
+					v += ')';
+				}
+
+				return v;
+			})
+			.attr('x', function(d) {
+				return xScale(d[valueColumn]);
+			})
+			.attr('y', function(d, i) {
+				return i * (barHeight + barGap);
+			})
+			.attr('dx', function(d) {
+				return valueGap;
+			})
+			.attr('dy', (barHeight / 2) + 6)
 }
 
 // Bind on-load handler
