@@ -161,6 +161,8 @@ var onSelectChange = function(d) {
 		.attr('stroke-width', '2px')
 		.attr('stroke', '#000')
 		.moveToFront();
+
+	fm.resize()
 }
 
 d3.selection.prototype.moveToFront = function() {
