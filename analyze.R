@@ -53,9 +53,50 @@ general.results[general.results$id == 'E14000871', 4:17] <-
   c(27706, 2596, 0, 249, 17209, 0, 1024, 0, 0, 0, 0, 0, 6487, 0)
 
 # By-election: Sheffield Brightside & Hillsborough
+# https://web.archive.org/web/20160604053020/https://www.sheffield.gov.uk/your-city-council/elections/election-results/2016/brightside-hillsborough-by-election.html
 general.results[general.results$id == 'E14000921', 4:17] <-
   c(22581, 1267, 0, 938, 14087, 0, 1385, 0, 0, 0, 0, 0, 4497, 0)
 
+# By-election: Ogmore
+# http://www.bbc.com/news/uk-wales-south-east-wales-36219570
+general.results[general.results$id == 'W07000074', 4:17] <-
+  c(23532, 2956, 0, 0, 12383, 0, 702, 3683, 0, 0, 0, 0, 3808, 0)
+
+# By-election: Tooting
+# http://www.wandsworth.gov.uk/info/200327/election_results/2167/tooting_constituency_by-election_result_june_2016
+general.results[general.results$id == 'E14000998', 4:17] <-
+  c(32048, 11537, 0, 830, 17894, 0, 820, 0, 0, 0, 0, 0, 507, 0)
+  
+# By-election: Batley and Spen
+# https://democracy.kirklees.gov.uk/mgElectionAreaResults.aspx?ID=161&RPID=502428457
+general.results[general.results$id == 'E14000548', 4:17] <-
+  c(20393, 0, 0, 0, 17506, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+
+# By-election: Witney
+# http://www.witneygazette.co.uk/news/14815246.AS_IT_HAPPENED__Conservative_Robert_Courts_elected_as_Witney_s_new_MP/
+general.results[general.results$id == 'E14001046', 4:17] <-
+  c(38455, 17313, 0, 1363, 5765, 0, 11611, 0, 0, 0, 0, 0, 1354, 0)
+
+# By-election: Richmond Park
+# https://cabnet.richmond.gov.uk/mgElectionAreaResults.aspx?ID=81&RPID=503020385
+general.results[general.results$id == 'E14000896', 4:17] <-
+  c(41283, 18638, 0, 0, 1515, 0, 20510, 0, 0, 0, 0, 0, 0, 0)
+
+# By-election: Sleaford and North Hykeham
+# https://www.independent.co.uk/news/uk/politics/sleaford-and-north-hykeham-by-election-results-in-full-conservative-labour-ukip-lib-dems-a7464916.html
+general.results[general.results$id == 'E14000929', 4:17] <-
+  c(32834, 17570, 0, 0, 3363, 0, 3606, 0, 0, 0, 0, 0, 4426, 0)
+
+# By-election: Copeland
+# https://www.theguardian.com/politics/blog/live/2017/feb/23/stoke-and-copeland-byelections-voting-almost-over-as-labour-hope-to-hold-seats-politics-live?page=with:block-58afa222e4b05f755cc0bce1#block-58afa222e4b05f755cc0bce1
+general.results[general.results$id == 'E14000647', 4:17] <-
+  c(31068, 13748, 0, 515, 11601, 0, 2252, 0, 0, 0, 0, 0, 2025, 0)
+
+# By-election: Stoke-on-Trent Central
+# https://www.theguardian.com/politics/blog/live/2017/feb/23/stoke-and-copeland-byelections-voting-almost-over-as-labour-hope-to-hold-seats-politics-live?page=with:block-58af98f8e4b030b6f7c8e8af#block-58af98f8e4b030b6f7c8e8af
+general.results[general.results$id == 'E14000972', 4:17] <-
+  c(21170, 5154, 0, 294, 7853, 0, 2083, 0, 0, 0, 0, 0, 5233, 0)
+  
 # Convert counts to share of vote
 general.results <- general.results %>%
   # Convert NA counts to zero
