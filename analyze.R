@@ -47,6 +47,15 @@ colnames(general.results) <- c(
   "uup"
 )
 
+# By-election: Oldham West & Royton
+# http://committees.oldham.gov.uk/mgElectionAreaResults.aspx?ID=158&RPID=10998446
+general.results[general.results$id == 'E14000871', 4:17] <-
+  c(27706, 2596, 0, 249, 17209, 0, 1024, 0, 0, 0, 0, 0, 6487, 0)
+
+# By-election: Sheffield Brightside & Hillsborough
+general.results[general.results$id == 'E14000921', 4:17] <-
+  c(22581, 1267, 0, 938, 14087, 0, 1385, 0, 0, 0, 0, 0, 4497, 0)
+
 # Convert counts to share of vote
 general.results <- general.results %>%
   # Convert NA counts to zero

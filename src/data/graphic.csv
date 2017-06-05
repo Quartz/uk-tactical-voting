@@ -35,7 +35,7 @@ E14000933,Basildon South & Thurrock East,con,Solid leave,con,lab,con,con,NA,NA,7
 E14000545,Basingstoke,con,Solid leave,con,lab,con,con,NA,NA,53.59878197
 E14000546,Bassetlaw,lab,Tactical swing,con,lab,con,lab,NA,NA,68.32275495
 E14000547,Bath,con,Tactical swing,con,ld,con,ld,NA,NA,31.72454892
-E14000548,Batley & Spen,lab,Tactical swing,con,lab,con,lab,NA,NA,59.628397629999995
+E14000548,Batley & Spen,lab,Solid remain,con,lab,lab,lab,NA,NA,59.628397629999995
 E14000549,Battersea,con,Solid leave,con,lab,con,con,NA,NA,22.04674055
 E14000550,Beaconsfield,con,Solid leave,con,lab,con,con,NA,NA,49.00626733
 E14000551,Beckenham,con,Solid leave,con,lab,con,con,NA,NA,48.38170491
@@ -158,7 +158,7 @@ S14000011,"Coatbridge, Chryston & Bellshill",snp,Solid remain,con,snp,snp,snp,NA
 E14000644,Colchester,con,Tactical swing,con,ld,con,ld,con,ld,51.51448181
 E14000645,Colne Valley,con,Tactical swing,con,lab,con,lab,con,lab,50.05534919
 E14000646,Congleton,con,Solid leave,con,lab,con,con,NA,NA,52.61269112
-E14000647,Copeland,lab,Tactical swing,con,lab,con,lab,NA,NA,59.19658371999999
+E14000647,Copeland,con,Tactical swing,con,lab,con,lab,NA,NA,59.19658371999999
 E14000648,Corby,con,Swing,con,lab,con,lab,NA,NA,60.14688934
 E14000837,Cornwall North,con,Tactical swing,con,ld,con,ld,NA,NA,60.19250026
 E14000938,Cornwall South East,con,Solid leave,con,ld,con,con,NA,NA,55.098705790000004
@@ -435,7 +435,7 @@ E14000866,Nottingham North,lab,Solid remain,con,lab,lab,lab,NA,NA,63.80805601
 E14000867,Nottingham South,lab,Tactical swing,con,lab,con,lab,con,lab,46.46776483
 E14000868,Nuneaton,con,Solid leave,con,lab,con,con,NA,NA,64.50599311
 S14000050,Ochil & Perthshire South,snp,Solid remain,con,snp,snp,snp,NA,NA,39.5023841
-W07000074,Ogmore,lab,Solid remain,con,lab,lab,lab,NA,NA,58.90245084
+W07000074,Ogmore,lab,Solid remain,ukip,lab,lab,lab,NA,NA,58.90245084
 E14000869,Old Bexley & Sidcup,con,Solid leave,con,lab,con,con,NA,NA,62.43048760999999
 E14000870,Oldham East & Saddleworth,lab,Tactical swing,con,lab,con,lab,NA,NA,59.92043445
 E14000871,Oldham West & Royton,lab,Solid remain,ukip,lab,lab,lab,NA,NA,61.30829724
@@ -471,7 +471,7 @@ S14000021,Renfrewshire East,snp,Solid remain,con,snp,snp,snp,NA,NA,25.68141894
 W07000052,Rhondda,lab,Solid remain,ukip,lab,lab,lab,NA,NA,60.44990078
 E14000894,Ribble Valley,con,Solid leave,con,lab,con,con,NA,NA,58.730891809999996
 E14000895,Richmond (Yorks),con,Solid leave,con,lab,con,con,NA,NA,54.710436939999994
-E14000896,Richmond Park,con,Solid leave,con,ld,con,con,NA,NA,28.685631299999997
+E14000896,Richmond Park,ld,Swing,con,ld,con,ld,NA,NA,28.685631299999997
 E14000897,Rochdale,lab,Solid remain,ukip,lab,lab,lab,NA,NA,57.45003587000001
 E14000898,Rochester & Strood,con,Solid leave,con,lab,con,con,NA,NA,63.68812299
 E14000899,Rochford & Southend East,con,Solid leave,con,lab,con,con,NA,NA,60.92034453
@@ -512,7 +512,7 @@ E14000926,Shrewsbury & Atcham,con,Solid leave,con,lab,con,con,NA,NA,52.92057793
 E14000849,Shropshire North,con,Solid leave,con,lab,con,con,NA,NA,59.848118549999995
 E14000927,Sittingbourne & Sheppey,con,Solid leave,con,lab,con,con,NA,NA,65.36448876
 E14000928,Skipton & Ripon,con,Solid leave,con,lab,con,con,NA,NA,53.18714405
-E14000929,Sleaford & North Hykeham,con,Solid leave,con,lab,con,con,NA,NA,61.583166649999995
+E14000929,Sleaford & North Hykeham,con,Solid leave,con,ld,con,con,NA,NA,61.583166649999995
 E14000930,Slough,lab,Tactical swing,con,lab,con,lab,con,lab,54.05691498
 E14000931,Solihull,con,Solid leave,con,ld,con,con,NA,NA,53.34830853
 E14000850,Somerset North,con,Solid leave,con,lab,con,con,NA,NA,47.58369914
@@ -572,7 +572,7 @@ E14000994,Thornbury & Yate,con,Swing,con,ld,con,ld,con,ld,52.1900806
 E14000995,Thurrock,con,Swing,con,lab,con,lab,NA,NA,70.25530969
 E14000996,Tiverton & Honiton,con,Solid leave,con,lab,con,con,NA,NA,57.8205268
 E14000997,Tonbridge & Malling,con,Solid leave,con,lab,con,con,NA,NA,52.857431909999995
-E14000998,Tooting,lab,Tactical swing,con,lab,con,lab,NA,NA,25.58758409
+E14000998,Tooting,lab,Solid remain,con,lab,lab,lab,NA,NA,25.58758409
 E14000999,Torbay,con,Tactical swing,con,ld,con,ld,NA,NA,62.453668009999994
 W07000053,Torfaen,lab,Tactical swing,con,lab,con,lab,NA,NA,60.77521646
 E14001001,Totnes,con,Solid leave,con,lab,con,con,NA,NA,53.89136358
@@ -625,7 +625,7 @@ E14001042,Windsor,con,Solid leave,con,lab,con,con,NA,NA,46.65907704
 E14001043,Wirral South,lab,Tactical swing,con,lab,con,lab,con,lab,46.54894164
 E14001044,Wirral West,lab,Swing,con,lab,con,lab,NA,NA,44.69019958
 E14001045,Witham,con,Solid leave,con,lab,con,con,NA,NA,60.46842975
-E14001046,Witney,con,Solid leave,con,lab,con,con,NA,NA,46.34465746
+E14001046,Witney,con,Tactical swing,con,ld,con,ld,con,ld,46.34465746
 E14001047,Woking,con,Solid leave,con,lab,con,con,NA,NA,44.25193357
 E14001048,Wokingham,con,Solid leave,con,lab,con,con,NA,NA,42.69408892
 E14001049,Wolverhampton North East,lab,Tactical swing,con,lab,con,lab,NA,NA,67.70525193
